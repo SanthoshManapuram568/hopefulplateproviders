@@ -196,7 +196,8 @@
                             <a href=""><i class="fab fa-facebook-f"></i></a>
                             <a href=""><i class="fab fa-linkedin-in"></i></a>
                             <a href=""><i class="fab fa-instagram"></i></a>
-                            <a href=#><i class="fa fa-lock" aria-hidden="true"></i></a>
+                            <a href="#" data-toggle="modal" data-target="#adminModal"> <i class="fa fa-lock" aria-hidden="true"></i></a>
+                            <!-- <a href="#" id="photosButtonMobileUnlocked" style="color: orange;" class="sm-screen-photo"><i class="fa fa-unlock" aria-hidden="true"></i></a> -->
                         </div>
                     </div>
                 </div>
@@ -205,7 +206,7 @@
     </div>
     <!-- Top Bar End -->
 
-   
+
     <!-- Nav Bar Start -->
     <div class="navbar navbar-expand-lg bg-dark navbar-dark">
         <div class="container-fluid">
@@ -225,33 +226,92 @@
                     <a href="#event" class="nav-item nav-link">Events</a>
                     <a href="#" id="photosButtonDesktop" class="nav-item nav-link">Photos</a>
                     <a href="#uv" id="videosButtonDesktop" class="nav-item nav-link">Videos</a>
-                    <!-- <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu">
-                                <a href="#uv" class="dropdown-item">Watch Videos</a>
-                                <a href="team.html" class="dropdown-item">Meet The Team</a>
-                                <a href="donate.html" class="dropdown-item">Donate Now</a>
-                                <a href="volunteer.html" class="dropdown-item">Become A Volunteer</a>
-                            </div>
-                        </div> -->
                     <a href="#footer" class="nav-item nav-link">Contact</a>
                 </div>
             </div>
         </div>
-        
-    </div>
-    <div class="header row">
-        <div class="col-3 text-center" > <a href=# id="photosButtonMobile" style="color: orange;" class="sm-screen-photo"><i class="fa fa-image"></i>Photos</a>
-        </div>
-        <div class="col-3 text-center"> <a href="#uv" id="photosButtonMobile" style="color: orange;" class="sm-screen-photo"><i class="fa fa-video"></i>Videos</a>
-        </div>
-        <div class="col-3 text-center"> <a href=# id="photosButtonMobile" style="color: orange;" class="sm-screen-photo"><i class="fa fa-money-bill"></i>Donate</a>
-        </div>
-        <div class="col-3 text-center"> <a href=# id="photosButtonMobile" style="color: orange;" class="sm-screen-photo"><i class="fa fa-lock" aria-hidden="true"></i>Admin</a>
-        </div>
+
     </div>
     <!-- Nav Bar End -->
-    
+    <div class="header row">
+        <div class="col-3 text-center"> <a href=# id="photosButtonMobile" style="color: orange;"
+                class="sm-screen-photo"><i class="fa fa-image"></i>Photos</a>
+        </div>
+        <div class="col-3 text-center"> <a href="#uv" id="photosButtonMobile" style="color: orange;"
+                class="sm-screen-photo"><i class="fa fa-video"></i>Videos</a>
+        </div>
+        <div class="col-3 text-center"> <a href=# id="photosButtonMobile" style="color: orange;"
+                class="sm-screen-photo"><i class="fa fa-money-bill"></i>Donate</a>
+        </div>
+        <div class="col-3 text-center" id="photosButtonMobileLocked">
+            <a href="#" id="photosButtonMobileLocked" style="color: orange;" class="sm-screen-photo" data-toggle="modal" data-target="#adminModal">
+                <i class="fa fa-lock" aria-hidden="true"></i> Admin
+            </a>
+        </div>
+
+        <div class="col-3 text-center">
+    <a href="#" id="photosButtonMobileUnlocked" style="color: orange;" class="sm-screen-photo">
+        <i class="fa fa-unlock" aria-hidden="true"></i> Admin
+    </a>
+</div>
+    </div>
+
+    <!-- Admin Modal -->
+    <div class="modal fade" id="adminModal" tabindex="-1" role="dialog" aria-labelledby="adminModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="adminModalLabel">Admin Access</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Tabs for Login and Registration -->
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#loginTab">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#registrationTab">Registration</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content mt-3">
+                        <!-- Login Tab -->
+                        <div id="loginTab" class="tab-pane fade show active">
+                            <div class="form-group">
+                                <label for="loginEmail">Email</label>
+                                <input type="email" id="loginEmail" class="form-control" placeholder="Enter email">
+                            </div>
+                            <div class="form-group">
+                                <label for="loginUUID">UUID</label>
+                                <input type="text" id="loginUUID" class="form-control" placeholder="Enter UUID">
+                            </div>
+                            <button id="loginButton" class="btn btn-success btn-block">Login</button>
+                        </div>
+
+                        <!-- Registration Tab -->
+                        <div id="registrationTab" class="tab-pane fade">
+                            <div class="form-group">
+                                <label for="registerEmail">Email</label>
+                                <input type="email" id="registerEmail" class="form-control" placeholder="Enter email">
+                            </div>
+                            <div class="form-group">
+                                <label for="registerKey">Super API Key</label>
+                                <input type="text" id="registerKey" class="form-control" placeholder="Enter API Key">
+                            </div>
+                            <button id="registerButton" class="btn btn-primary btn-block">Register</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 
     <!-- Photos Button -->
     <!-- Photos Modal -->
@@ -300,7 +360,7 @@
         </div>
     </div>
 
-    
+
 
     <!-- Carousel Start -->
     <div class="carousel">
@@ -429,21 +489,23 @@
             <!-- Video list -->
             <div class="row align-items-center" id="videoListContainer">
                 <!-- Videos will be populated here -->
-                <a class="mt-4 btn btn-custom btn-play" href="#" data-src="https://yjpjumvaadajilxkdrwb.supabase.co/storage/v1/object/public/videos/public/vid-donation2.mp4" data-toggle="modal" data-target="#videoModal">Watch Video</a>
+                <a class="mt-4 btn btn-custom btn-play" href="#"
+                    data-src="https://yjpjumvaadajilxkdrwb.supabase.co/storage/v1/object/public/videos/public/vid-donation2.mp4"
+                    data-toggle="modal" data-target="#videoModal">Watch Video</a>
             </div>
         </div>
     </div>
 
     <!-- PHOTOS UPLOAD AND WATCHING -->
-    <div class="up mt-4" id="up">
+    <!-- <div class="up" id="up">
         <div class="container">
             <div class="row section-header">
                 <p class="col-12 text-center">Photos</p>
             </div>
         </div>
-    </div>
+    </div> -->
 
-    
+
 
     <!-- Video Modal Start-->
     <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -1555,107 +1617,227 @@
 
             // Initialize Supabase client (make sure you initialize it with your Supabase URL and anon key)
 
-// Select the elements
-const uploadVideoBtn = document.getElementById('uploadVideoBtn');
-const videoInput = document.getElementById('videoInput');
-const videoListContainer = document.getElementById('videoListContainer');
+            // Select the elements
+            const uploadVideoBtn = document.getElementById('uploadVideoBtn');
+            const videoInput = document.getElementById('videoInput');
+            const videoListContainer = document.getElementById('videoListContainer');
 
-// Function to fetch and display videos
-// Function to fetch and display videos
-async function fetchVideos() {
-    try {
-        const { data: videos, error } = await supabase
-            .from('videos')
-            .select('*')
-            .order('id', { ascending: false }); // You can change the order if needed
+            // Function to fetch and display videos
+            // Function to fetch and display videos
+            async function fetchVideos() {
+                try {
+                    const { data: videos, error } = await supabase
+                        .from('videos')
+                        .select('*')
+                        .order('id', { ascending: false }); // You can change the order if needed
 
-        if (error) throw error;
+                    if (error) throw error;
 
-        // Clear the previous list
-        videoListContainer.innerHTML = "";
+                    // Clear the previous list
+                    videoListContainer.innerHTML = "";
 
-        // Loop through the videos and display them
-        videos.forEach((video) => {
-            const videoElement = document.createElement('a');
-            videoElement.classList.add('mt-4', 'btn', 'btn-custom', 'btn-play');
-            videoElement.href = "#";
-            videoElement.setAttribute('data-src', video.url);  // Set the video URL as data-src
-            videoElement.setAttribute('data-toggle', 'modal');
-            videoElement.setAttribute('data-target', '#videoModal');
-            videoElement.innerText = 'Watch Video';
-            
-            // Attach event listener to set the iframe source
-            videoElement.addEventListener('click', (e) => {
-                const videoUrl = e.target.getAttribute('data-src'); // Get the video URL from data-src attribute
-                console.log("Video URL:", videoUrl); // Debugging: Log the video URL
-                const videoPlayer = document.getElementById('video'); // Select the iframe
-                console.log("videoPlayer.src : ",videoPlayer.src)
-                if (videoUrl && videoUrl !== 'undefined') {
-                    videoPlayer.src = videoUrl + "?autoplay=1&modestbranding=1&showinfo=0"; // Set video src with autoplay
-                    console.log("after videoPlayer.src : ",videoPlayer.src)
-                    console.log("videoElement.videoPlayer.src",videoElement);
-                } else {
-                    console.error("Video URL is undefined or invalid");
+                    // Loop through the videos and display them
+                    videos.forEach((video) => {
+                        const videoElement = document.createElement('a');
+                        videoElement.classList.add('mt-4', 'btn', 'btn-custom', 'btn-play');
+                        videoElement.href = "#";
+                        videoElement.setAttribute('data-src', video.url);  // Set the video URL as data-src
+                        videoElement.setAttribute('data-toggle', 'modal');
+                        videoElement.setAttribute('data-target', '#videoModal');
+                        videoElement.innerText = 'Watch Video';
+
+                        // Attach event listener to set the iframe source
+                        videoElement.addEventListener('click', (e) => {
+                            const videoUrl = e.target.getAttribute('data-src'); // Get the video URL from data-src attribute
+                            console.log("Video URL:", videoUrl); // Debugging: Log the video URL
+                            const videoPlayer = document.getElementById('video'); // Select the iframe
+                            console.log("videoPlayer.src : ", videoPlayer.src)
+                            if (videoUrl && videoUrl !== 'undefined') {
+                                videoPlayer.src = videoUrl + "?autoplay=1&modestbranding=1&showinfo=0"; // Set video src with autoplay
+                                console.log("after videoPlayer.src : ", videoPlayer.src)
+                                console.log("videoElement.videoPlayer.src", videoElement);
+                            } else {
+                                console.error("Video URL is undefined or invalid");
+                            }
+                        });
+                        console.log(videoElement);
+                        videoListContainer.appendChild(videoElement);
+                    });
+                } catch (error) {
+                    console.error("Error fetching videos:", error);
+                }
+            }
+
+
+            // Function to upload video to Supabase
+            async function uploadVideo() {
+                const file = videoInput.files[0];
+                if (!file) {
+                    alert("Please select a video file to upload.");
+                    return;
+                }
+
+                try {
+                    // Upload the video to Supabase Storage (videos/public)
+                    const { data, error: uploadError } = await supabase
+                        .storage
+                        .from('videos')
+                        .upload(`public/${file.name}`, file);
+
+                    if (uploadError) throw uploadError;
+
+                    const videoUrl = `${SUPABASE_URL}/storage/v1/object/public/videos/${data.path}`;
+
+                    // Save the video URL to the database
+                    const { error: insertError } = await supabase
+                        .from('videos')
+                        .insert([
+                            { url: videoUrl }
+                        ]);
+
+                    if (insertError) throw insertError;
+
+                    // Fetch the updated video list
+                    fetchVideos();
+
+                    alert("Video uploaded successfully!");
+                } catch (error) {
+                    console.error("Error uploading video:", error);
+                }
+            }
+
+            // Open the video input when the "Upload Videos" button is clicked
+            uploadVideoBtn.addEventListener('click', () => {
+                videoInput.click();
+            });
+
+            // When a video is selected, upload it
+            videoInput.addEventListener('change', uploadVideo);
+
+            // Fetch the initial list of videos when the page loads
+            fetchVideos();
+
+            const SUPER_API_KEY = "Hopefull@2016"; // Predefined API Key
+            const checkLoginStatus = () => {
+                    const session = JSON.parse(localStorage.getItem("adminSession"));
+                    if (session && session.expiresAt > new Date().getTime()) {
+                        // If logged in, show "unlocked" and hide "locked"
+                        $("#photosButtonMobileLocked").hide();
+                        $("#photosButtonMobileUnlocked").show();
+                    } else {
+                        // If not logged in, show "locked" and hide "unlocked"
+                        $("#photosButtonMobileLocked").show();
+                        $("#photosButtonMobileUnlocked").hide();
+                    }
+                };
+
+                // Run the login check on page load
+                checkLoginStatus();
+
+            // Register a new admin
+            $("#registerButton").on("click", async () => {
+                // const session = JSON.parse(localStorage.getItem("adminSession"));
+                const email = $("#registerEmail").val().trim();
+                const apiKey = $("#registerKey").val().trim();
+
+                if (!email || !apiKey) {
+                    alert("Please fill all fields.");
+                    return;
+                }
+
+                if (apiKey !== SUPER_API_KEY) {
+                    alert("Invalid API Key.");
+                    $("#registerKey").val("");
+                    return;
+                }
+
+                try {
+                    const uuid = crypto.randomUUID(); // Generate a unique UUID
+                    const { error } = await supabase.from("admins").insert([{ email, uuid }]);
+
+                    if (error) throw error;
+
+                    alert(`Key for entered email is ${uuid}.`);
+                    $("#registerEmail, #registerKey").val(""); // Reset the form
+                } catch (error) {
+                    if (error.code === "23505") {
+                        alert("User Already Exists.")
+                    } else {
+                        alert("Oops!! Please Try Again.");
+                    }
                 }
             });
-            console.log(videoElement);
-            videoListContainer.appendChild(videoElement);
-        });
-    } catch (error) {
-        console.error("Error fetching videos:", error);
-    }
-}
 
+            // Admin login
+            $("#loginButton").on("click", async () => {
+                const email = $("#loginEmail").val().trim();
+                const uuid = $("#loginUUID").val().trim();
 
-// Function to upload video to Supabase
-async function uploadVideo() {
-    const file = videoInput.files[0];
-    if (!file) {
-        alert("Please select a video file to upload.");
-        return;
-    }
+                if (!email || !uuid) {
+                    alert("Please fill all fields.");
+                    return;
+                }
 
-    try {
-        // Upload the video to Supabase Storage (videos/public)
-        const { data, error: uploadError } = await supabase
-            .storage
-            .from('videos')
-            .upload(`public/${file.name}`, file);
+                try {
+                    const { data, error } = await supabase.from("admins").select("*").eq("email", email).eq("uuid", uuid).single();
 
-        if (uploadError) throw uploadError;
+                    if (error || !data) {
+                        alert("Invalid email or UUID.");
+                        return;
+                    }
 
-        const videoUrl = `${SUPABASE_URL}/storage/v1/object/public/videos/${data.path}`;
+                    // Create a session in localStorage
+                    const session = {
+                        email,
+                        expiresAt: new Date().getTime() + 10 * 60 * 1000 // 10 minutes from now
+                    };
 
-        // Save the video URL to the database
-        const { error: insertError } = await supabase
-            .from('videos')
-            .insert([
-                { url: videoUrl }
-            ]);
+                    localStorage.setItem("adminSession", JSON.stringify(session));
+                    checkLoginStatus();
+                    alert("Login successful!");
+                    $("#loginEmail, #loginUUID").val("");//reset form
+                    $("#adminModal").modal("hide");
+                } catch (error) {
+                    console.error("Error logging in:", error);
+                    alert("Login failed. Try again later.");
+                }
+            });
 
-        if (insertError) throw insertError;
+            // Handle logout (clear session)
+                $("#photosButtonMobileUnlocked").on("click", () => {
+                    // Clear the session from localStorage
+                    localStorage.removeItem("adminSession");
 
-        // Fetch the updated video list
-        fetchVideos();
+                    // Update the buttons to show "locked" and hide "unlocked"
+                    checkLoginStatus();
 
-        alert("Video uploaded successfully!");
-    } catch (error) {
-        console.error("Error uploading video:", error);
-    }
-}
+                    alert("Logged out successfully!");
+                });
 
-// Open the video input when the "Upload Videos" button is clicked
-uploadVideoBtn.addEventListener('click', () => {
-    videoInput.click();
-});
+            // Validate session on page load
+            const validateSession = () => {
+                const session = JSON.parse(localStorage.getItem("adminSession"));
+                if (session && session.expiresAt > new Date().getTime()) {
+                    alert(`Welcome back, ${session.email}!`);
+                } else {
+                    localStorage.removeItem("adminSession");
+                }
+            };
 
-// When a video is selected, upload it
-videoInput.addEventListener('change', uploadVideo);
+            // Run session validation
+            validateSession();
 
-// Fetch the initial list of videos when the page loads
-fetchVideos();
+            // Clear session on tab close
+            $(window).on("beforeunload", () => {
+                localStorage.removeItem("adminSession");
+            });
 
-
+            // Close modal and remove backdrop after modal is hidden
+            $("#adminModal").on('hidden.bs.modal', function () {
+                setTimeout(() => {
+                    $('.modal-backdrop').remove(); // Remove any backdrop
+                }, 100); // 100ms delay to ensure it's after modal is fully hidden
+            });
         </script>
 
 </body>
