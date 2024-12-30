@@ -196,7 +196,7 @@
                             <a href=""><i class="fab fa-facebook-f"></i></a>
                             <a href=""><i class="fab fa-linkedin-in"></i></a>
                             <a href=""><i class="fab fa-instagram"></i></a>
-                            <a href="#" data-toggle="modal" data-target="#adminModal"> <i class="fa fa-lock" aria-hidden="true"></i></a>
+                            <!-- <a href="#" data-toggle="modal" data-target="#adminModal"> <i class="fa fa-lock" aria-hidden="true"></i></a> -->
                             <!-- <a href="#" id="photosButtonMobileUnlocked" style="color: orange;" class="sm-screen-photo"><i class="fa fa-unlock" aria-hidden="true"></i></a> -->
                         </div>
                     </div>
@@ -213,7 +213,12 @@
             <img class="logo" src="img/logo.png" alt="Logo" id="logo" style="cursor: pointer;">
             <a href="index.html" class="navbar-brand hpp-name">HopefulPlateProviders</a>
             <a href="index.html" class="navbar-brand hpp-name-small">Team HPP</a>
-            <!-- <a href="#" id="photosButtonMobile" class="sm-screen-photo btn btn-outline-primary">Photos</a> -->
+            <a href="#" id="photosButtonMobileLocked" style="color: orange;" class="sm-screen-photo" data-toggle="modal" data-target="#adminModal">
+                <i class="fa fa-lock" aria-hidden="true"></i> Login
+            </a>
+            <a href="#" id="photosButtonMobileUnlocked" style="color: orange;" class="sm-screen-photo">
+                <i class="fa fa-unlock" aria-hidden="true"></i> Logout
+            </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -232,29 +237,21 @@
         </div>
 
     </div>
+
+    
+    
     <!-- Nav Bar End -->
-    <div class="header row">
-        <div class="col-3 text-center"> <a href=# id="photosButtonMobile" style="color: orange;"
+    <!-- <div class="header row">
+        <div class="col-4 text-center"> <a href=# id="photosButtonMobile" style="color: orange;"
                 class="sm-screen-photo"><i class="fa fa-image"></i>Photos</a>
         </div>
-        <div class="col-3 text-center"> <a href="#uv" id="photosButtonMobile" style="color: orange;"
+        <div class="col-4 text-center"> <a href="#uv" id="photosButtonMobile" style="color: orange;"
                 class="sm-screen-photo"><i class="fa fa-video"></i>Videos</a>
         </div>
-        <div class="col-3 text-center"> <a href=# id="photosButtonMobile" style="color: orange;"
+        <div class="col-4 text-center"> <a href="#donate" id="photosButtonMobile" style="color: orange;"
                 class="sm-screen-photo"><i class="fa fa-money-bill"></i>Donate</a>
         </div>
-        <div class="col-3 text-center" id="photosButtonMobileLocked">
-            <a href="#" id="photosButtonMobileLocked" style="color: orange;" class="sm-screen-photo" data-toggle="modal" data-target="#adminModal">
-                <i class="fa fa-lock" aria-hidden="true"></i> Admin
-            </a>
-        </div>
-
-        <div class="col-3 text-center">
-    <a href="#" id="photosButtonMobileUnlocked" style="color: orange;" class="sm-screen-photo">
-        <i class="fa fa-unlock" aria-hidden="true"></i> Admin
-    </a>
-</div>
-    </div>
+    </div> -->
 
     <!-- Admin Modal -->
     <div class="modal fade" id="adminModal" tabindex="-1" role="dialog" aria-labelledby="adminModalLabel"
@@ -293,6 +290,8 @@
                         </div>
 
                         <!-- Registration Tab -->
+                        <div id="messageContainer" class="text-center"></div>
+
                         <div id="registrationTab" class="tab-pane fade">
                             <div class="form-group">
                                 <label for="registerEmail">Email</label>
@@ -316,50 +315,52 @@
     <!-- Photos Button -->
     <!-- Photos Modal -->
     <div class="modal fade" id="photos-model" tabindex="-1" role="dialog" aria-labelledby="photos-modelLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="photos-modelLabel">Memories Since 2017</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <button id="uploadButton" class="btn btn-primary btn-sm"
-                        style="position: absolute; right: 90px; top: 10px;">Upload</button>
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="photos-modelLabel">Memories Since 2017</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Upload Button -->
+            <button id="uploadButton" class="btn btn-warning btn-block">
+                Upload
+            </button>
+            <div class="modal-body">
+                <!-- Upload Section -->
+                <div id="uploadSection" style="display: none;">
+                    <div class="form-group">
+                        <label for="uploadKey">Upload Key</label>
+                        <input type="text" id="uploadKey" class="form-control" placeholder="Enter upload key">
+                    </div>
+                    <input type="file" id="photoInput" multiple>
+                    <button id="uploadSubmitButton" class="btn btn-success btn-sm mt-2">Upload Photos</button>
                 </div>
-                <div class="modal-body">
-                    <!-- Upload Section -->
-                    <div id="uploadSection" style="display: none;">
-                        <div class="form-group">
-                            <label for="uploadKey">Upload Key</label>
-                            <input type="text" id="uploadKey" class="form-control" placeholder="Enter upload key">
-                        </div>
-                        <input type="file" id="photoInput" multiple>
-                        <button id="uploadSubmitButton" class="btn btn-success btn-sm mt-2">Upload Photos</button>
-                    </div>
-                    <!-- Gallery Section -->
-                    <div id="photosContainer" class="d-flex flex-wrap justify-content-start"
-                        style="max-height: 400px; overflow-y: auto;">
-                    </div>
-                    <p id="noPhotosMessage" class="text-center text-danger mt-3" style="display: none;">No photos
-                        available. Be the first to upload!</p>
-                    <!-- Enlarged photo view -->
-                    <div id="photoView"
-                        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 9999; justify-content: center; align-items: center;">
-                        <button id="prevBtn" class="btn btn-light"
-                            style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);">←</button>
-                        <img id="expandedPhoto" src="" alt="Expanded Photo"
-                            style="max-width: 80%; max-height: 80%; margin: auto; display: block;">
-                        <button id="nextBtn" class="btn btn-light"
-                            style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">→</button>
-                        <!-- <a id="downloadBtn" href="" download class="btn btn-success" -->
-                        <!-- style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);">Download</a> -->
-                    </div>
+                <!-- Gallery Section -->
+                <div id="photosContainer" class="d-flex flex-wrap justify-content-start"
+                    style="max-height: 400px; overflow-y: auto;">
+                </div>
+                <p id="noPhotosMessage" class="text-center text-danger mt-3" style="display: none;">No photos
+                    available. Be the first to upload!</p>
+                <!-- Enlarged Photo View -->
+                <div id="photoView"
+                    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 9999; justify-content: center; align-items: center;">
+                    <button id="prevBtn" class="btn btn-light"
+                        style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);">←</button>
+                    <img id="expandedPhoto" src="" alt="Expanded Photo"
+                        style="max-width: 80%; max-height: 80%; margin: auto; display: block;">
+                    <button id="nextBtn" class="btn btn-light"
+                        style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">→</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
+
+  
 
 
     <!-- Carousel Start -->
@@ -476,11 +477,31 @@
     <!-- About End -->
 
     <!-- VIDEOS UPLOAD AND WATCHING -->
-    <div class="uv" id="uv">
+    <div class="up" id="up">
         <div class="container">
-            <div class="row section-header">
-                <p class="col-12 text-center">Videos</p>
+            <!-- <div class="row section-header"> -->
+                <!-- <p class="col-12 text-center">Videos</p> -->
+                <!-- <p class="col-12 text-center">This feature is coming soon, this is a dummy video for testing!!</p> -->
+            <!-- </div> -->
+            <!-- Upload button and input -->
+            <div class="row">
+                <a href="#" id="photosButtonMobile" class="btn btn-block btn-warning">View All Photos</a>    
+                <!-- <button class="btn btn-block btn-warning" id="uploadVideoBtn">Upload Videos</button>
+                <input type="file" id="videoInput" accept="video/*" style="display: none;"> -->
             </div>
+            <!-- Video list -->
+            <!-- <div class="row align-items-center" id="videoListContainer"> -->
+                <!-- Videos will be populated here -->
+            <!-- </div>  -->
+        </div>
+    </div>
+
+    <!-- VIDEOS UPLOAD AND WATCHING -->
+    <div class="uv mt-2" id="uv">
+        <div class="container">
+            <!-- <div class="row section-header"> -->
+                <!-- <p class="col-12 text-center">Videos</p> -->
+            <!-- </div> -->
             <!-- Upload button and input -->
             <div class="row">
                 <button class="btn btn-block btn-warning" id="uploadVideoBtn">Upload Videos</button>
@@ -489,9 +510,6 @@
             <!-- Video list -->
             <div class="row align-items-center" id="videoListContainer">
                 <!-- Videos will be populated here -->
-                <a class="mt-4 btn btn-custom btn-play" href="#"
-                    data-src="https://yjpjumvaadajilxkdrwb.supabase.co/storage/v1/object/public/videos/public/vid-donation2.mp4"
-                    data-toggle="modal" data-target="#videoModal">Watch Video</a>
             </div>
         </div>
     </div>
@@ -1465,6 +1483,7 @@
             });
 
             document.getElementById("uploadSubmitButton").addEventListener("click", async () => {
+                console.log("upload btn clicked");
                 const files = document.getElementById("photoInput").files;
                 const uploadKey = document.getElementById("uploadKey").value;
 
@@ -1708,6 +1727,7 @@
 
             // Open the video input when the "Upload Videos" button is clicked
             uploadVideoBtn.addEventListener('click', () => {
+                // return;
                 videoInput.click();
             });
 
@@ -1753,11 +1773,12 @@
 
                 try {
                     const uuid = crypto.randomUUID(); // Generate a unique UUID
+                  
                     const { error } = await supabase.from("admins").insert([{ email, uuid }]);
 
                     if (error) throw error;
-
-                    alert(`Key for entered email is ${uuid}.`);
+                    displaySuccessMessage(uuid);
+                    // alert(`Key for entered email is ${uuid}.`);
                     $("#registerEmail, #registerKey").val(""); // Reset the form
                 } catch (error) {
                     if (error.code === "23505") {
@@ -1767,6 +1788,27 @@
                     }
                 }
             });
+
+            // Function to display success message with UUID
+    const displaySuccessMessage = (uuid) => {
+        const messageContainer = $("#messageContainer");
+        const successMessage = `<p class="alert alert-success" style="position: relative; display: inline-block;">
+            Please note this UUID and keep it safe, If lost, you'll need to delete and re-create the account.<br>Your UUID for login is <strong>${uuid}</strong>.
+            <span class="close" style="position: absolute; top: 0; right: 5px; cursor: pointer;">&times;</span>
+        </p>`;
+
+        messageContainer.html(successMessage);
+
+        // Add event listener to close the message
+        messageContainer.find(".close").on("click", () => {
+            messageContainer.empty();
+        });
+
+        // Automatically hide the message after 5 seconds
+        // setTimeout(() => {
+        //     messageContainer.empty();
+        // }, 5000);
+    };
 
             // Admin login
             $("#loginButton").on("click", async () => {
