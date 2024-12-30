@@ -2328,14 +2328,14 @@ z-index:1000;
 }
 @media (max-width: 991.36px) {
 
-    .modal-dialog {
+    .modal-dialog-up {
         display: flex;
         align-items: center;
         justify-content: center;
         min-height: 100vh; /* Full-screen height */
         margin: 0; /* Remove default margins */
     }
-    .modal-content {
+    .model-content-up {
         width: auto;
         max-width: 90%; /* Optional: to limit the modal size */
     }

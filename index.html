@@ -213,7 +213,8 @@
             <img class="logo" src="img/logo.png" alt="Logo" id="logo" style="cursor: pointer;">
             <a href="index.html" class="navbar-brand hpp-name">HopefulPlateProviders</a>
             <a href="index.html" class="navbar-brand hpp-name-small">Team HPP</a>
-            <a href="#" id="photosButtonMobileLocked" style="color: orange;" class="sm-screen-photo" data-toggle="modal" data-target="#adminModal">
+            <a href="#" id="photosButtonMobileLocked" style="color: orange;" class="sm-screen-photo" data-toggle="modal"
+                data-target="#adminModal">
                 <i class="fa fa-lock" aria-hidden="true"></i> Login
             </a>
             <a href="#" id="photosButtonMobileUnlocked" style="color: orange;" class="sm-screen-photo">
@@ -230,7 +231,7 @@
                     <a href="#donate" class="nav-item nav-link">Donate</a>
                     <a href="#event" class="nav-item nav-link">Events</a>
                     <a href="#" id="photosButtonDesktop" class="nav-item nav-link">Photos</a>
-                    <a href="#uv" id="videosButtonDesktop" class="nav-item nav-link">Videos</a>
+                    <!-- <a href="#uv" id="videosButtonDesktop" class="nav-item nav-link">Videos</a> -->
                     <a href="#footer" class="nav-item nav-link">Contact</a>
                 </div>
             </div>
@@ -238,8 +239,8 @@
 
     </div>
 
-    
-    
+
+
     <!-- Nav Bar End -->
     <!-- <div class="header row">
         <div class="col-4 text-center"> <a href=# id="photosButtonMobile" style="color: orange;"
@@ -309,58 +310,55 @@
         </div>
     </div>
 
-
-
-
     <!-- Photos Button -->
     <!-- Photos Modal -->
     <div class="modal fade" id="photos-model" tabindex="-1" role="dialog" aria-labelledby="photos-modelLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="photos-modelLabel">Memories Since 2017</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+        aria-hidden="true">
+        <div class="modal-dialog model-dialog-up modal-lg" role="document">
+            <div class="modal-content model-content-up">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="photos-modelLabel">Memories Since 2017</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- Upload Button -->
+                <button id="uploadButton" class="btn btn-warning btn-block" style="display: none;">
+                    Upload
                 </button>
-            </div>
-            <!-- Upload Button -->
-            <button id="uploadButton" class="btn btn-warning btn-block">
-                Upload
-            </button>
-            <div class="modal-body">
-                <!-- Upload Section -->
-                <div id="uploadSection" style="display: none;">
-                    <div class="form-group">
-                        <label for="uploadKey">Upload Key</label>
-                        <input type="text" id="uploadKey" class="form-control" placeholder="Enter upload key">
+                <div class="modal-body">
+                    <!-- Upload Section -->
+                    <div id="uploadSection" style="display: none;">
+                        <div class="form-group">
+                            <label for="uploadKey">Upload Key</label>
+                            <input type="text" id="uploadKey" class="form-control" placeholder="Enter upload key">
+                        </div>
+                        <input type="file" id="photoInput" multiple>
+                        <button id="uploadSubmitButton" class="btn btn-success btn-sm mt-2">Upload Photos</button>
                     </div>
-                    <input type="file" id="photoInput" multiple>
-                    <button id="uploadSubmitButton" class="btn btn-success btn-sm mt-2">Upload Photos</button>
-                </div>
-                <!-- Gallery Section -->
-                <div id="photosContainer" class="d-flex flex-wrap justify-content-start"
-                    style="max-height: 400px; overflow-y: auto;">
-                </div>
-                <p id="noPhotosMessage" class="text-center text-danger mt-3" style="display: none;">No photos
-                    available. Be the first to upload!</p>
-                <!-- Enlarged Photo View -->
-                <div id="photoView"
-                    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 9999; justify-content: center; align-items: center;">
-                    <button id="prevBtn" class="btn btn-light"
-                        style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);">←</button>
-                    <img id="expandedPhoto" src="" alt="Expanded Photo"
-                        style="max-width: 80%; max-height: 80%; margin: auto; display: block;">
-                    <button id="nextBtn" class="btn btn-light"
-                        style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">→</button>
+                    <!-- Gallery Section -->
+                    <div id="photosContainer" class="d-flex flex-wrap justify-content-start"
+                        style="max-height: 400px; overflow-y: auto;">
+                    </div>
+                    <p id="noPhotosMessage" class="text-center text-danger mt-3" style="display: none;">No photos
+                        available. Be the first to upload!</p>
+                    <!-- Enlarged Photo View -->
+                    <div id="photoView"
+                        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 9999; justify-content: center; align-items: center;">
+                        <button id="prevBtn" class="btn btn-light"
+                            style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);">←</button>
+                        <img id="expandedPhoto" src="" alt="Expanded Photo"
+                            style="max-width: 80%; max-height: 80%; margin: auto; display: block;">
+                        <button id="nextBtn" class="btn btn-light"
+                            style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">→</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
-  
+
 
 
     <!-- Carousel Start -->
@@ -480,39 +478,39 @@
     <div class="up" id="up">
         <div class="container">
             <!-- <div class="row section-header"> -->
-                <!-- <p class="col-12 text-center">Videos</p> -->
-                <!-- <p class="col-12 text-center">This feature is coming soon, this is a dummy video for testing!!</p> -->
+            <!-- <p class="col-12 text-center">Videos</p> -->
+            <!-- <p class="col-12 text-center">This feature is coming soon, this is a dummy video for testing!!</p> -->
             <!-- </div> -->
             <!-- Upload button and input -->
             <div class="row">
-                <a href="#" id="photosButtonMobile" class="btn btn-block btn-warning">View All Photos</a>    
+                <a href="#" id="photosButtonMobile" class="btn btn-block btn-warning">View All Photos</a>
                 <!-- <button class="btn btn-block btn-warning" id="uploadVideoBtn">Upload Videos</button>
                 <input type="file" id="videoInput" accept="video/*" style="display: none;"> -->
             </div>
             <!-- Video list -->
             <!-- <div class="row align-items-center" id="videoListContainer"> -->
-                <!-- Videos will be populated here -->
+            <!-- Videos will be populated here -->
             <!-- </div>  -->
         </div>
     </div>
 
     <!-- VIDEOS UPLOAD AND WATCHING -->
-    <div class="uv mt-2" id="uv">
-        <div class="container">
+    <!-- <div class="uv mt-2" id="uv"> -->
+        <!-- <div class="container"> -->
             <!-- <div class="row section-header"> -->
-                <!-- <p class="col-12 text-center">Videos</p> -->
+            <!-- <p class="col-12 text-center">Videos</p> -->
             <!-- </div> -->
             <!-- Upload button and input -->
-            <div class="row">
-                <button class="btn btn-block btn-warning" id="uploadVideoBtn">Upload Videos</button>
-                <input type="file" id="videoInput" accept="video/*" style="display: none;">
-            </div>
+            <!-- <div class="row"> -->
+                <!-- <button class="btn btn-block btn-warning" id="uploadVideoBtn">Upload Videos</button> -->
+                <!-- <input type="file" id="videoInput" accept="video/*" style="display: none;"> -->
+            <!-- </div> -->
             <!-- Video list -->
-            <div class="row align-items-center" id="videoListContainer">
+            <!-- <div class="row align-items-center" id="videoListContainer"> -->
                 <!-- Videos will be populated here -->
-            </div>
-        </div>
-    </div>
+            <!-- </div> -->
+        <!-- </div> -->
+    <!-- </div> -->
 
     <!-- PHOTOS UPLOAD AND WATCHING -->
     <!-- <div class="up" id="up">
@@ -1458,6 +1456,12 @@
                 const showModalAndFetchPhotos = async () => {
                     $('#photos-model').modal('show'); // Show the modal
                     await fetchPhotos(); // Fetch photos when the modal is shown
+                    checkAdminSession();
+                };
+
+                const checkAdminSession = () => {
+                    const isAdminLoggedIn = localStorage.getItem("adminSession");
+                    uploadButton.style.display = isAdminLoggedIn ? "block" : "none";
                 };
 
                 // Attach event listeners to both buttons
@@ -1726,33 +1730,33 @@
             }
 
             // Open the video input when the "Upload Videos" button is clicked
-            uploadVideoBtn.addEventListener('click', () => {
+            // uploadVideoBtn.addEventListener('click', () => {
                 // return;
-                videoInput.click();
-            });
+                // videoInput.click();
+            // });
 
             // When a video is selected, upload it
-            videoInput.addEventListener('change', uploadVideo);
+            // videoInput.addEventListener('change', uploadVideo);
 
             // Fetch the initial list of videos when the page loads
-            fetchVideos();
+            // fetchVideos();
 
             const SUPER_API_KEY = "Hopefull@2016"; // Predefined API Key
             const checkLoginStatus = () => {
-                    const session = JSON.parse(localStorage.getItem("adminSession"));
-                    if (session && session.expiresAt > new Date().getTime()) {
-                        // If logged in, show "unlocked" and hide "locked"
-                        $("#photosButtonMobileLocked").hide();
-                        $("#photosButtonMobileUnlocked").show();
-                    } else {
-                        // If not logged in, show "locked" and hide "unlocked"
-                        $("#photosButtonMobileLocked").show();
-                        $("#photosButtonMobileUnlocked").hide();
-                    }
-                };
+                const session = JSON.parse(localStorage.getItem("adminSession"));
+                if (session && session.expiresAt > new Date().getTime()) {
+                    // If logged in, show "unlocked" and hide "locked"
+                    $("#photosButtonMobileLocked").hide();
+                    $("#photosButtonMobileUnlocked").show();
+                } else {
+                    // If not logged in, show "locked" and hide "unlocked"
+                    $("#photosButtonMobileLocked").show();
+                    $("#photosButtonMobileUnlocked").hide();
+                }
+            };
 
-                // Run the login check on page load
-                checkLoginStatus();
+            // Run the login check on page load
+            checkLoginStatus();
 
             // Register a new admin
             $("#registerButton").on("click", async () => {
@@ -1773,7 +1777,7 @@
 
                 try {
                     const uuid = crypto.randomUUID(); // Generate a unique UUID
-                  
+
                     const { error } = await supabase.from("admins").insert([{ email, uuid }]);
 
                     if (error) throw error;
@@ -1790,25 +1794,25 @@
             });
 
             // Function to display success message with UUID
-    const displaySuccessMessage = (uuid) => {
-        const messageContainer = $("#messageContainer");
-        const successMessage = `<p class="alert alert-success" style="position: relative; display: inline-block;">
+            const displaySuccessMessage = (uuid) => {
+                const messageContainer = $("#messageContainer");
+                const successMessage = `<p class="alert alert-success" style="position: relative; display: inline-block;">
             Please note this UUID and keep it safe, If lost, you'll need to delete and re-create the account.<br>Your UUID for login is <strong>${uuid}</strong>.
             <span class="close" style="position: absolute; top: 0; right: 5px; cursor: pointer;">&times;</span>
         </p>`;
 
-        messageContainer.html(successMessage);
+                messageContainer.html(successMessage);
 
-        // Add event listener to close the message
-        messageContainer.find(".close").on("click", () => {
-            messageContainer.empty();
-        });
+                // Add event listener to close the message
+                messageContainer.find(".close").on("click", () => {
+                    messageContainer.empty();
+                });
 
-        // Automatically hide the message after 5 seconds
-        // setTimeout(() => {
-        //     messageContainer.empty();
-        // }, 5000);
-    };
+                // Automatically hide the message after 5 seconds
+                // setTimeout(() => {
+                //     messageContainer.empty();
+                // }, 5000);
+            };
 
             // Admin login
             $("#loginButton").on("click", async () => {
@@ -1836,7 +1840,6 @@
 
                     localStorage.setItem("adminSession", JSON.stringify(session));
                     checkLoginStatus();
-                    alert("Login successful!");
                     $("#loginEmail, #loginUUID").val("");//reset form
                     $("#adminModal").modal("hide");
                 } catch (error) {
@@ -1846,15 +1849,15 @@
             });
 
             // Handle logout (clear session)
-                $("#photosButtonMobileUnlocked").on("click", () => {
-                    // Clear the session from localStorage
-                    localStorage.removeItem("adminSession");
+            $("#photosButtonMobileUnlocked").on("click", () => {
+                // Clear the session from localStorage
+                localStorage.removeItem("adminSession");
 
-                    // Update the buttons to show "locked" and hide "unlocked"
-                    checkLoginStatus();
+                // Update the buttons to show "locked" and hide "unlocked"
+                checkLoginStatus();
 
-                    alert("Logged out successfully!");
-                });
+                alert("Logged out successfully!");
+            });
 
             // Validate session on page load
             const validateSession = () => {
