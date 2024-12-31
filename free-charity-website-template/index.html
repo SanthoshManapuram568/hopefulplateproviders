@@ -330,14 +330,13 @@
                     <!-- Upload Section -->
                     <div id="uploadSection" style="display: none;">
                         <div class="form-group">
-                            <label for="uploadKey">Upload Key</label>
                             <input type="text" id="uploadKey" class="form-control" placeholder="Enter upload key">
                         </div>
                         <input type="file" id="photoInput" multiple>
                         <button id="uploadSubmitButton" class="btn btn-success btn-sm mt-2">Upload Photos</button>
                     </div>
                     <!-- Gallery Section -->
-                    <div id="photosContainer" class="d-flex flex-wrap justify-content-start"
+                    <div id="photosContainer" class="mt-2 d-flex flex-wrap justify-content-start"
                         style="max-height: 400px; overflow-y: auto;">
                     </div>
                     <p id="noPhotosMessage" class="text-center text-danger mt-3" style="display: none;">No photos
@@ -1462,7 +1461,7 @@
                 };
 
                 const checkAdminSession = () => {
-                    const isAdminLoggedIn = localStorage.getItem("adminSession");
+                    const isAdminLoggedIn = sessionStorage.getItem("adminSession");
                     uploadButton.style.display = isAdminLoggedIn ? "block" : "none";
                 };
 

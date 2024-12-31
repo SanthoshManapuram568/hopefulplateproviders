@@ -2372,3 +2372,12 @@ z-index:1000;
         max-width: 90%; /* Optional: to limit the modal size */
     }
 }
+
+
+#photosContainer img {
+    width: 100%; /* Make sure the images fill the available width */
+    height: 100px; /* Set a fixed height for all images */
+    object-fit: cover; /* Ensure the images maintain aspect ratio and cover the area */
+    border-radius: 8px; /* Optional: Add border radius for rounded corners */
+    margin: 8px; /* Optional: Space between images */
+}

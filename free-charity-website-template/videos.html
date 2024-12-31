@@ -47,6 +47,7 @@ h1 {
     color: #4a90e2;
     margin-bottom: 20px;
 }
+
 .upload-section {
     margin-bottom: 20px;
     text-align: center;
@@ -56,6 +57,7 @@ h1 {
     flex-wrap: wrap;
     gap: 16px;
     justify-content: center;
+    /* background-color: whitesmoke; */
 }
 .video-item {
     position: relative;
@@ -161,7 +163,8 @@ h1 {
                 <p>Uploading...</p>
             </div>
         </div>
-        <div class="gallery" id="videoGallery"></div>
+        <div class="gallery" id="videoGallery">
+        </div>
         <div class="expanded-video" id="expandedVideo">
             <button class="close-button" onclick="closeVideo()">×</button>
             <video controls id="expandedPlayer"></video>
@@ -192,6 +195,7 @@ h1 {
             }
             if (file.size > 50 * 1024 * 1024) { // 50 MB in bytes
                 alert('The video file must be less than 50 MB.');
+                document.getElementById('videoFile').value="";
                 return;
             }
 
@@ -213,6 +217,7 @@ h1 {
                 }
 
                 alert('Video uploaded successfully!');
+                document.getElementById('videoFile').value="";
                 loaderContainer.style.display = 'none';
                 fetchVideos();
             } catch (error) {
