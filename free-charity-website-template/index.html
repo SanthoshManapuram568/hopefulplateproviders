@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>HopefulPlateProviders</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free Website Template" name="keywords">
+    <meta content="Free Website Template" name="description">
+
+    <!-- Favicon -->
+    <link href="img/logo.png" rel="icon">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS Libraries -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="lib/flaticon/font/flaticon.css" rel="stylesheet">
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery, Popper.js, and Bootstrap JS -->
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+
+
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize EmailJS with your User ID
+            emailjs.init('5qdUdXA3EzfbBzOLd');
+
+            // Handle checkbox for manual amount entry
+            document.getElementById('manualAmountCheckbox').addEventListener('change', function () {
+                const isChecked = this.checked;
+                document.getElementById('radioButtons').style.display = isChecked ? 'none' : 'block';
+                document.getElementById('customAmountField').style.display = isChecked ? 'block' : 'none';
+            });
+
+            // Form submit handling
+            document.getElementById('donationForm').addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent the form from submitting the default way
+
+                // Get form values
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+
+                let amount;
+                const manualAmountCheckbox = document.getElementById('manualAmountCheckbox');
+
+                if (manualAmountCheckbox.checked) {
+                    // Get custom amount
+                    amount = document.getElementById('customAmount').value;
+                    if (!amount) {
+                        showMessage('Please enter a custom amount.', 'red');
+                        return; // Stop form submission
+                    }
+                } else {
+                    // Get selected radio button value
+                    const selectedAmount = document.querySelector('input[name="amount"]:checked');
+                    if (selectedAmount) {
+                        amount = selectedAmount.value;
+                    } else {
+                        showMessage('Please select a donation amount.', 'red');
+                        return; // Stop form submission
+                    }
+                }
+
+                console.log(`Name: ${name}, Email: ${email}, Amount: ${amount}`);
+
+                // Prepare template parameters
+                const templateParams = {
+                    to_mail: email,
+                    to_name: name,
+                    from_name: 'Hopeful Plate Providers',
+                    message: `Hi ${name}, We're pleased to know that you want to donate for a great cause. Please donate ₹${amount} to the number 7780731077 using any UPI app. Thanks, Team HPP`,
+                    to_email: email,
+                    amount: amount,
+                };
+
+                // Send the email via EmailJS
+                emailjs.send('service_rcupehc', 'template_y6u558q', templateParams)
+                    .then(function (response) {
+                        console.log('Email sent successfully!', response);
+                        showMessage('Thank you for your donation! A confirmation email has been sent.', 'green');
+                    })
+                    .catch(function (error) {
+                        console.error('Email sending failed:', error);
+                        showMessage('Failed to send the email. Please try again later.', 'red');
+                    });
+
+                const upiId = '7780731077-union@ybl'; // Your UPI ID
+                const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
+                // Generate QR Code
+                QRCode.toCanvas(upiUrl, { width: 200 }, (error, canvas) => {
+                    if (error) {
+                        console.error("QR Code generation error:", error);
+                        return;
+                    }
+                    const qrCodeDiv = document.getElementById('qrCode');
+                    qrCodeDiv.innerHTML = ''; // Clear any existing QR code
+                    qrCodeDiv.appendChild(canvas);
+                });
+
+                // Check if the user is on a mobile device and try to open the UPI URL
+                // const isAndroid = /android/i.test(navigator.userAgent);
+                // const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                // if (isAndroid || isIOS) {
+                //     window.location.href = upiUrl;
+                //     console.log("herf :: " + window.location.href);
+
+                //     // Fallback: Show a message or redirect to Play Store/ App Store after 2 seconds
+                //     setTimeout(() => {
+                //         const isAndroid = /android/i.test(navigator.userAgent);
+                //         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+                //         if (isAndroid) {
+                //             window.location.href = "https://play.google.com/store/apps/details?id=com.dreamplug.androidapp";
+                //         } else if (isIOS) {
+                //             window.location.href = "https://apps.apple.com/in/app/cred-pay/id1429033973";
+                //         } else {
+                //             alert("Please download the CRED app from your app store.");
+                //         }
+                //     }, 2000);
+
+                // }
+
+                // Update Payment Link
+                const paymentLink = document.getElementById('paymentLink');
+                paymentLink.href = upiUrl;
+            });
+
+
+
+
+            // Function to display a message in the modal
+            function showMessage(message, color) {
+                const messagePara = document.getElementById('donationMessage');
+                messagePara.textContent = message;
+                messagePara.style.color = color;
+                messagePara.style.display = 'block';
+                setTimeout(() => {
+                    messagePara.style.display = 'none';
+                }, 5000);
+            }
+        });
+
+
+
+
+    </script>
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Popup Container -->
+    <div class="popup-container" id="popupContainer">
+        <div class="popup-content">
+            <button class="close-button" id="closeButton">×</button>
+            <img src="" alt="">
+            <p>Welcome to the HopefulPlateProviders!!</p>
+        </div>
+    </div>
+
+
+    <!-- Top Bar Start -->
+    <div class="top-bar d-none d-md-block">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="top-bar-left">
+                        <div class="text">
+                            <i class="fa fa-phone-alt"></i>
+                            <p>+91 77807 31077</p>
+                        </div>
+                        <div class="text">
+                            <i class="fa fa-envelope"></i>
+                            <p>hopefulplateproviders@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="top-bar-right">
+                        <div class="social">
+                            <a href=""><i class="fab fa-twitter"></i></a>
+                            <a href=""><i class="fab fa-facebook-f"></i></a>
+                            <a href=""><i class="fab fa-linkedin-in"></i></a>
+                            <a href=""><i class="fab fa-instagram"></i></a>
+                            <!-- <a href="#" data-toggle="modal" data-target="#adminModal"> <i class="fa fa-lock" aria-hidden="true"></i></a> -->
+                            <!-- <a href="#" id="photosButtonMobileUnlocked" style="color: orange;" class="sm-screen-photo"><i class="fa fa-unlock" aria-hidden="true"></i></a> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Top Bar End -->
+
+
+    <!-- Nav Bar Start -->
+    <div class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div class="container-fluid">
+            <img class="logo" src="img/logo.png" alt="Logo" id="logo" style="cursor: pointer;">
+            <a href="index.html" class="navbar-brand hpp-name">HopefulPlateProviders</a>
+            <a href="index.html" class="navbar-brand hpp-name-small">Team HPP</a>
+            <a href="#" id="photosButtonMobileLocked" style="color: orange;" class="sm-screen-photo" data-toggle="modal"
+                data-target="#adminModal">
+                <i class="fa fa-lock" aria-hidden="true"></i> Login
+            </a>
+            <a href="#" id="photosButtonMobileUnlocked" style="color: orange;" class="sm-screen-photo">
+                <i class="fa fa-unlock" aria-hidden="true"></i> Logout
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <div class="navbar-nav ml-auto">
+                    <a href="index.html" class="nav-item nav-link active">Home</a>
+                    <a href="#about" class="nav-item nav-link">About</a>
+                    <a href="#donate" class="nav-item nav-link">Donate</a>
+                    <a href="#event" class="nav-item nav-link">Events</a>
+                    <a href="#" id="photosButtonDesktop" class="nav-item nav-link">Photos</a>
+                    <!-- <a href="#uv" id="videosButtonDesktop" class="nav-item nav-link">Videos</a> -->
+                    <a href="#footer" class="nav-item nav-link">Contact</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- Nav Bar End -->
+    <!-- <div class="header row">
+        <div class="col-4 text-center"> <a href=# id="photosButtonMobile" style="color: orange;"
+                class="sm-screen-photo"><i class="fa fa-image"></i>Photos</a>
+        </div>
+        <div class="col-4 text-center"> <a href="#uv" id="photosButtonMobile" style="color: orange;"
+                class="sm-screen-photo"><i class="fa fa-video"></i>Videos</a>
+        </div>
+        <div class="col-4 text-center"> <a href="#donate" id="photosButtonMobile" style="color: orange;"
+                class="sm-screen-photo"><i class="fa fa-money-bill"></i>Donate</a>
+        </div>
+    </div> -->
+
+    <!-- Admin Modal -->
+    <div class="modal fade" id="adminModal" tabindex="-1" role="dialog" aria-labelledby="adminModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="adminModalLabel">Admin Access</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Tabs for Login and Registration -->
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#loginTab">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#registrationTab">Registration</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content mt-3">
+                        <!-- Login Tab -->
+                        <div id="loginTab" class="tab-pane fade show active">
+                            <div class="form-group">
+                                <label for="loginEmail">Email</label>
+                                <input type="email" id="loginEmail" class="form-control" placeholder="Enter email">
+                            </div>
+                            <div class="form-group">
+                                <label for="loginUUID">UUID</label>
+                                <input type="text" id="loginUUID" class="form-control" placeholder="Enter UUID">
+                                <a href="#" class="mt-2" style="text-align: center; color: red;">Forget UUID ??</a>
+                            </div>
+                            <button id="loginButton" class="btn btn-success btn-block">Login</button>
+                        </div>
+
+                        <!-- Registration Tab -->
+                        <div id="messageContainer" class="text-center"></div>
+
+                        <div id="registrationTab" class="tab-pane fade">
+                            <div class="form-group">
+                                <label for="registerEmail">Email</label>
+                                <input type="email" id="registerEmail" class="form-control" placeholder="Enter email">
+                            </div>
+                            <div class="form-group">
+                                <label for="registerKey">Super API Key</label>
+                                <input type="text" id="registerKey" class="form-control" placeholder="Enter API Key">
+                            </div>
+                            <button id="registerButton" class="btn btn-primary btn-block">Register</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photos Button -->
+    <!-- Photos Modal -->
+    <div class="modal fade" id="photos-model" tabindex="-1" role="dialog" aria-labelledby="photos-modelLabel"
+        aria-hidden="true">
+        <div class="modal-dialog model-dialog-up modal-lg" role="document">
+            <div class="modal-content model-content-up">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="photos-modelLabel">Memories Since 2017</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- Upload Button -->
+                <button id="uploadButton" class="btn btn-warning btn-block" style="display: none;">
+                    Upload
+                </button>
+                <div class="modal-body">
+                    <!-- Upload Section -->
+                    <div id="uploadSection" style="display: none;">
+                        <div class="form-group">
+                            <input type="text" id="uploadKey" class="form-control" placeholder="Enter upload key">
+                        </div>
+                        <input type="file" id="photoInput" multiple>
+                        <button id="uploadSubmitButton" class="btn btn-success btn-sm mt-2">Upload Photos</button>
+                    </div>
+                    <!-- Gallery Section -->
+                    <div id="photosContainer" class="mt-2 d-flex flex-wrap justify-content-start"
+                        style="max-height: 400px; overflow-y: auto;">
+                    </div>
+                    <p id="noPhotosMessage" class="text-center text-danger mt-3" style="display: none;">No photos
+                        available. Be the first to upload!</p>
+                    <!-- Enlarged Photo View -->
+                    <div id="photoView"
+                        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index: 9999; justify-content: center; align-items: center;">
+                        <button id="prevBtn" class="btn btn-light"
+                            style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);">←</button>
+                        <img id="expandedPhoto" src="" alt="Expanded Photo"
+                            style="max-width: 80%; max-height: 80%; margin: auto; display: block;">
+                        <button id="nextBtn" class="btn btn-light"
+                            style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">→</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Carousel Start -->
+    <div class="carousel">
+        <div class="container-fluid">
+            <div class="owl-carousel">
+                <div class="carousel-item">
+                    <div class="carousel-img">
+                        <img src="img/cr-image1.jpeg" alt="Image">
+                    </div>
+                    <div class="carousel-text">
+                        <h1>Feed the Needy</h1>
+                        <p>
+                            We provide food for the childern that are malnutritioned.
+                        </p>
+                        <div class="carousel-btn">
+                            <a class="btn btn-custom" href="#donate">Donate Now</a>
+                            <a class="btn btn-custom btn-play" data-toggle="modal" data-src="vid/vid-donation1.mp4"
+                                data-target="#videoModal">Watch Video</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="carousel-img">
+                        <img src="img/cr-image2.jpeg" alt="Image">
+                    </div>
+                    <div class="carousel-text">
+                        <h1>Get Involved with helping hand</h1>
+                        <p>
+                            A penny from your pocket can fill the tummy of needy.
+                        </p>
+                        <div class="carousel-btn">
+                            <a class="btn btn-custom" href="#donate">Donate Now</a>
+                            <a class="btn btn-custom btn-play" data-toggle="modal" data-src="vid/vid-donation2.mp4"
+                                data-target="#videoModal">Watch Video</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="carousel-img">
+                        <img src="img/cr-image3.jpeg" alt="Image">
+                    </div>
+                    <div class="carousel-text">
+                        <h1>Bringing smiles to millions</h1>
+                        <p>
+                            It might be a penny for you but it brings smiles on many childern faces. Just imagine a
+                            child laugh unconditonally. It can happen with your small contribution.
+                        </p>
+                        <div class="carousel-btn">
+                            <a class="btn btn-custom" href="#donate">Donate Now</a>
+                            <a class="btn btn-custom btn-play" data-toggle="modal" data-src="vid/vid-donation1.mp4"
+                                data-target="#videoModal">Watch Video</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Carousel End -->
+
+    <!-- About Start -->
+    <div class="about" id="about">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- <a class="btn btn-block" id="photosButton">View Memories - Photos</a> -->
+                <div class="col-lg-6">
+                    <div class="about-img" data-parallax="scroll" data-image-src="img/about.jpg"></div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="section-header">
+                        <p>Learn About Us</p>
+                        <h2>A Non-Profit charity organization</h2>
+                    </div>
+                    <div class="about-tab">
+                        <ul class="nav nav-pills nav-justified">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="pill" href="#tab-content-1">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#tab-content-2">Mission</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="pill" href="#tab-content-3">Vision</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div id="tab-content-1" class="container tab-pane active">
+                                A Small group now turned into the group of 100+ who wants to be a part of this impact.
+                                This idea is once called as <b>ORPD (One Rupee Per A Day)</b> started by our group of
+                                B.Tech friends in <b>2016</b> had turned into the non-profit charity team in
+                                <b>Eluru</b> to start this helping hands team. Intially we just collected small amounts
+                                from different classes in our college and help people on roads with blankets and food
+                                packets. Later on after enginnering we started collecting in huge amounts (this happened
+                                all with your continoues support) and started helping the malnutritioned childern and
+                                adults and orphanages.
+                            </div>
+                            <div id="tab-content-2" class="container tab-pane fade">
+                                <b>HopefulPlateProviders</b> mission to create a impact in the needy people lives that
+                                no childern or an adult in our surroundings should sleep with hungry stomach and should
+                                have minimum basic necessities.
+                            </div>
+                            <div id="tab-content-3" class="container tab-pane fade">
+                                Our vision is to expand this charity to other cities and help the people who're are in
+                                need. As a saying <b>"దైవం మానుష రూపేణ" ("God revealed through human form")</b>. We want
+                                to prove that it's true.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+
+    <!-- VIDEOS UPLOAD AND WATCHING -->
+    <div class="up" id="up">
+        <div class="container">
+            <!-- <div class="row section-header"> -->
+            <!-- <p class="col-12 text-center">Videos</p> -->
+            <!-- <p class="col-12 text-center">This feature is coming soon, this is a dummy video for testing!!</p> -->
+            <!-- </div> -->
+            <!-- Upload button and input -->
+            <div class="row">
+                <a href="#" id="photosButtonMobile" class="btn btn-block btn-warning">View All Photos</a>
+                <!-- <a href="photos.html" class="btn btn-block btn-warning" id="uploadVideoBtn">View All Photos</a> -->
+
+                <a href="videos.html" class="btn btn-block btn-warning" id="uploadVideoBtn">View All Videos</a>
+                <!-- <input type="file" id="videoInput" accept="video/*" style="display: none;"> -->
+            </div>
+            <!-- Video list -->
+            <!-- <div class="row align-items-center" id="videoListContainer"> -->
+            <!-- Videos will be populated here -->
+            <!-- </div>  -->
+        </div>
+    </div>
+
+    <!-- VIDEOS UPLOAD AND WATCHING -->
+    <!-- <div class="uv mt-2" id="uv"> -->
+    <!-- <div class="container"> -->
+    <!-- <div class="row section-header"> -->
+    <!-- <p class="col-12 text-center">Videos</p> -->
+    <!-- </div> -->
+    <!-- Upload button and input -->
+    <!-- <div class="row"> -->
+    <!-- <button class="btn btn-block btn-warning" id="uploadVideoBtn">Upload Videos</button> -->
+    <!-- <input type="file" id="videoInput" accept="video/*" style="display: none;"> -->
+    <!-- </div> -->
+    <!-- Video list -->
+    <!-- <div class="row align-items-center" id="videoListContainer"> -->
+    <!-- Videos will be populated here -->
+    <!-- </div> -->
+    <!-- </div> -->
+    <!-- </div> -->
+
+    <!-- PHOTOS UPLOAD AND WATCHING -->
+    <!-- <div class="up" id="up">
+        <div class="container">
+            <div class="row section-header">
+                <p class="col-12 text-center">Photos</p>
+            </div>
+        </div>
+    </div> -->
+
+
+
+    <!-- Video Modal Start-->
+    <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <!-- 16:9 aspect ratio -->
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="" id="video" allowscriptaccess="always"
+                            allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Video Modal End -->
+
+
+    <!-- Service Start -->
+    <div class="service" id="service">
+        <div class="container">
+            <div class="section-header text-center">
+                <p>What We Do? What We Want To Do?</p>
+                <h2>We believe that we can save more lifes with you</h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item">
+                        <div class="service-icon">
+                            <i class="flaticon-diet"></i>
+                        </div>
+                        <div class="service-text">
+                            <h3>Healthy Food</h3>
+                            <p>Providing the nutrious food the people who're in need.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item">
+                        <div class="service-icon">
+                            <i class="flaticon-water"></i>
+                        </div>
+                        <div class="service-text">
+                            <h3>Pure Water</h3>
+                            <p>We provide water and do the water distribution centers in Summers.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item">
+                        <div class="service-icon">
+                            <i class="flaticon-healthcare"></i>
+                        </div>
+                        <div class="service-text">
+                            <h3>Health Care</h3>
+                            <p>As a team we want to provide Health assistant and support to atleast one person in FY</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item">
+                        <div class="service-icon">
+                            <i class="flaticon-education"></i>
+                        </div>
+                        <div class="service-text">
+                            <h3>Primary Education</h3>
+                            <p>As a team we want to provide Education to atleast one child in FY</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-lg-4 col-md-6">
+                        <div class="service-item">
+                            <div class="service-icon">
+                                <i class="flaticon-home"></i>
+                            </div>
+                            <div class="service-text">
+                                <h3>Residence Facilities</h3>
+                                <p>Lorem ipsum dolor sit amet elit. Phase nec preti facils ornare velit non metus tortor</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="service-item">
+                            <div class="service-icon">
+                                <i class="flaticon-blanket"></i>
+                            </div>
+                            <div class="service-text">
+                                <h3>Social Care</h3>
+                                <p>Lorem ipsum dolor sit amet elit. Phase nec preti facils ornare velit non metus tortor</p>
+                            </div>
+                        </div>
+                    </div> -->
+            </div>
+        </div>
+    </div>
+    <!-- Service End -->
+
+
+    <!-- Facts Start -->
+    <div class="facts" data-parallax="scroll" data-image-src="img/facts.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2 col-md-3">
+                    <!-- <div class="facts-item">
+                            <i class="flaticon-home"></i>
+                            <div class="facts-text">
+                                <h3 class="facts-plus" data-toggle="counter-up">150</h3>
+                                <p>Countries</p>
+                            </div>
+                        </div> -->
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="facts-item">
+                        <i class="flaticon-charity"></i>
+                        <div class="facts-text">
+                            <h3 class="facts-plus" data-toggle="counter-up">100</h3>
+                            <p>Volunteers</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="facts-item">
+                        <i class="flaticon-kindness"></i>
+                        <div class="facts-text">
+                            <h3 class="facts-dollar" data-toggle="counter-up">50000</h3>
+                            <p>Our Goal</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="facts-item">
+                        <i class="flaticon-donation"></i>
+                        <div class="facts-text">
+                            <h3 class="facts-dollar" data-toggle="counter-up">40000</h3>
+                            <p>Raised</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Facts End -->
+
+
+    <!-- Causes Start -->
+    <!-- <div class="causes">
+            <div class="container">
+                <div class="section-header text-center">
+                    <p>Popular Causes</p>
+                    <h2>Let's know about charity causes around the world</h2>
+                </div>
+                <div class="owl-carousel causes-carousel">
+                    <div class="causes-item">
+                        <div class="causes-img">
+                            <img src="img/causes-1.jpg" alt="Image">
+                        </div>
+                        <div class="causes-progress">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                                    <span>85%</span>
+                                </div>
+                            </div>
+                            <div class="progress-text">
+                                <p><strong>Raised:</strong> $100000</p>
+                                <p><strong>Goal:</strong> $50000</p>
+                            </div>
+                        </div>
+                        <div class="causes-text">
+                            <h3>Lorem ipsum dolor sit</h3>
+                            <p>Lorem ipsum dolor sit amet elit. Phasell nec pretium mi. Curabit facilis ornare velit non vulputa</p>
+                        </div>
+                        <div class="causes-btn">
+                            <a class="btn btn-custom">Learn More</a>
+                            <a class="btn btn-custom">Donate Now</a>
+                        </div>
+                    </div>
+                    <div class="causes-item">
+                        <div class="causes-img">
+                            <img src="img/causes-2.jpg" alt="Image">
+                        </div>
+                        <div class="causes-progress">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                                    <span>85%</span>
+                                </div>
+                            </div>
+                            <div class="progress-text">
+                                <p><strong>Raised:</strong> $100000</p>
+                                <p><strong>Goal:</strong> $50000</p>
+                            </div>
+                        </div>
+                        <div class="causes-text">
+                            <h3>Lorem ipsum dolor sit</h3>
+                            <p>Lorem ipsum dolor sit amet elit. Phasell nec pretium mi. Curabit facilis ornare velit non vulputa</p>
+                        </div>
+                        <div class="causes-btn">
+                            <a class="btn btn-custom">Learn More</a>
+                            <a class="btn btn-custom">Donate Now</a>
+                        </div>
+                    </div>
+                    <div class="causes-item">
+                        <div class="causes-img">
+                            <img src="img/causes-3.jpg" alt="Image">
+                        </div>
+                        <div class="causes-progress">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                                    <span>85%</span>
+                                </div>
+                            </div>
+                            <div class="progress-text">
+                                <p><strong>Raised:</strong> $100000</p>
+                                <p><strong>Goal:</strong> $50000</p>
+                            </div>
+                        </div>
+                        <div class="causes-text">
+                            <h3>Lorem ipsum dolor sit</h3>
+                            <p>Lorem ipsum dolor sit amet elit. Phasell nec pretium mi. Curabit facilis ornare velit non vulputa</p>
+                        </div>
+                        <div class="causes-btn">
+                            <a class="btn btn-custom">Learn More</a>
+                            <a class="btn btn-custom">Donate Now</a>
+                        </div>
+                    </div>
+                    <div class="causes-item">
+                        <div class="causes-img">
+                            <img src="img/causes-4.jpg" alt="Image">
+                        </div>
+                        <div class="causes-progress">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                                    <span>85%</span>
+                                </div>
+                            </div>
+                            <div class="progress-text">
+                                <p><strong>Raised:</strong> $100000</p>
+                                <p><strong>Goal:</strong> $50000</p>
+                            </div>
+                        </div>
+                        <div class="causes-text">
+                            <h3>Lorem ipsum dolor sit</h3>
+                            <p>Lorem ipsum dolor sit amet elit. Phasell nec pretium mi. Curabit facilis ornare velit non vulputa</p>
+                        </div>
+                        <div class="causes-btn">
+                            <a class="btn btn-custom">Learn More</a>
+                            <a class="btn btn-custom">Donate Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    <!-- Causes End -->
+
+
+    <!-- Donate Start -->
+    <div class="donate" id="donate" data-parallax="scroll" data-image-src="img/donate.jpg">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <div class="donate-content">
+                        <div class="section-header">
+                            <p>Donate Now</p>
+                            <h2>Let's donate to needy people for better lives</h2>
+                        </div>
+                        <div class="donate-text">
+                            <p>
+                                Each donation is a step towards brighter possibilities, helping to break the cycle of
+                                poverty and give children a chance to thrive. As Winston Churchill once said, <b>'We
+                                    make a living by what we get, but we make a life by what we give.'</b>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="donate-form">
+                        <form id="donationForm">
+                            <div class="control-group">
+                                <input type="text" class="form-control" id="name" placeholder="Name"
+                                    required="required" />
+                            </div>
+                            <div class="control-group">
+                                <input type="email" class="form-control" id="email" placeholder="Email"
+                                    required="required" />
+                            </div>
+
+                            <!-- Checkbox for Enter Amount Manually -->
+                            <div class="control-group">
+                                <input type="checkbox" id="manualAmountCheckbox" />
+                                <label for="manualAmountCheckbox">Enter amount manually</label>
+                            </div>
+
+                            <!-- Radio Buttons (Hidden when Enter Amount Manually is checked) -->
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons" id="radioButtons">
+                                <label class="btn btn-custom active">
+                                    <input type="radio" name="amount" value="365" checked> ₹365
+                                </label>
+                                <label class="btn btn-custom">
+                                    <input type="radio" name="amount" value="500"> ₹500
+                                </label>
+                                <label class="btn btn-custom">
+                                    <input type="radio" name="amount" value="1000"> ₹1000
+                                </label>
+                            </div>
+
+                            <!-- Custom Amount Input Field (Initially hidden) -->
+                            <div class="control-group" id="customAmountField" style="display: none;">
+                                <input type="number" name="customAmount" class="form-control"
+                                    placeholder="Enter custom amount" id="customAmount" />
+                            </div>
+
+                            <div>
+                                <button class="btn btn-custom" id="donateNowButton" data-toggle="modal"
+                                    data-target="#donateModal" type="submit">Donate Now</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Modal for Payment Information -->
+                    <!-- Custom Donate Modal -->
+                    <!-- Modal -->
+                    <div id="donateModal" class="modal fade" tabindex="-1" role="dialog"
+                        aria-labelledby="donateModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-center w-100" id="donateModalLabel">Payments</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Inconvenience note -->
+                                    <p style="color: blue; text-align: center;">
+                                        Thanks for your intrest to donate for a great cause.
+                                    </p>
+
+                                    <!-- Email message -->
+                                    <p style="color: green; text-align: center;" id="emailMessage"> We'll also send you
+                                        the email with UPI details for payment. </p>
+                                    <p style="color: green; text-align: center;" id="emailMessage"> You can scan the
+                                        below <b>QR code</b> and you can use any UPI app to scan the.</p>
+                                    <p style="color: green; text-align: center;" id="emailMessage"><b>OR</b></p>
+                                    <p style="color: green; text-align: center;" id="emailMessage"><b>You can press the
+                                            below link <b>"click here to pay"</b>.</b></p>
+                                    <p style="color: red; text-align: center;">If paying via clicking link , please use
+                                        only <b>CRED UPI</b>. In future we'll integrate other UPI apps too. </p>
+
+                                    <!-- Dynamic QR Code -->
+                                    <div id="qrCode" style="text-align: center; margin: 10px;"></div>
+
+                                    <!-- Dynamic Payment Link -->
+                                    <p style="text-align: center;">
+                                        <a class="btn-block" id="paymentLink" href="#" target="_blank"
+                                            style="font-weight: bold; color: blue; text-decoration: underline;">Click
+                                            here to Pay</a>
+                                    </p>
+                                    <!-- Donation success/failure message -->
+                                    <p id="donationMessage"
+                                        style="display: none; font-weight: bold; text-align: center;"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Donate End -->
+
+
+    <!-- Event Start -->
+    <div class="event" id="event">
+        <div class="container">
+            <div class="section-header text-center">
+                <p>Upcoming Events</p>
+                <h2>Be ready for our upcoming charity events</h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+
+                </div>
+                <div class="col-lg-6">
+                    <div class="event-item">
+                        <img src="img/finalevent.jpeg" alt="Image">
+                        <div class="event-content">
+                            <div class="event-meta">
+                                <p><i class="fa fa-calendar-alt"></i>24-Dec-2024</p>
+                                <p><i class="far fa-clock"></i>12:00 - 1:00PM</p>
+                                <p><a href="https://maps.app.goo.gl/GvJR6XhJQMmMx2yD7"><i
+                                            class="fa fa-map-marker-alt"></i>Orphange, MRO Office</a></p>
+                                <p><i class="fa fa-calendar-alt"></i>29-Dec-2024</p>
+                                <p><i class="far fa-clock"></i>12:00 - 1:00PM</p>
+                                <p><a href="https://maps.app.goo.gl/g9FGDPnJF3eWNgKL8"><i
+                                            class="fa fa-map-marker-alt"></i>Orphange, Sanviarpeta</a></p>
+                                <p><i class="fa fa-calendar-alt"></i>29-Dec-2024</p>
+                                <p><i class="far fa-clock"></i>12:00 - 1:00PM</p>
+                                <p><a href="https://maps.app.goo.gl/zye1ZpZg4TawRZ3F7"><i
+                                            class="fa fa-map-marker-alt"></i>Akruthi Foundation, Hyderabad</a></p>
+
+                            </div>
+                            <div class="event-text">
+                                <h3>Food & Blankets distribution Event</h3>
+                                <p>
+                                    Hey guys , we're back again to make you part of our small donation initiative where
+                                    your contribution matters the most. Hopeful Plate Providers team is very grateful
+                                    for your support every year and expecting the same for this year too.
+                                    #yourdonationmatters #teamHPP
+                                </p>
+                                <!-- <a class="btn btn-custom" href="">Join Now</a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+
+                </div>
+                <!-- <div class="col-lg-6">
+                        <div class="event-item">
+                            <img src="img/event-2.jpg" alt="Image">
+                            <div class="event-content">
+                                <div class="event-meta">
+                                    <p><i class="fa fa-calendar-alt"></i>01-Jan-45</p>
+                                    <p><i class="far fa-clock"></i>8:00 - 10:00</p>
+                                    <p><i class="fa fa-map-marker-alt"></i>New York</p>
+                                </div>
+                                <div class="event-text">
+                                    <h3>Lorem ipsum dolor sit</h3>
+                                    <p>
+                                        Lorem ipsum dolor sit amet elit. Neca pretim miura bitur facili ornare velit non vulpte liqum metus tortor
+                                    </p>
+                                    <a class="btn btn-custom" href="">Join Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+            </div>
+        </div>
+    </div>
+    <!-- Event End -->
+
+
+    <!-- Team Start -->
+    <div class="team">
+        <div class="container">
+            <div class="section-header text-center">
+                <p>Meet Our Team</p>
+                <h2>Awesome guys behind our charity activities</h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-item">
+                        <div class="team-img">
+                            <img src="img/santhosh.jpeg" alt="Team Image">
+                        </div>
+                        <div class="team-text">
+                            <h2>Santhosh Manapuram</h2>
+                            <p>----------------</p>
+                            <div class="team-social">
+                                <a href="https://x.com/M_Santhosh143"><i class="fab fa-twitter"></i></a>
+                                <!-- <a href=""><i class="fab fa-facebook-f"></i></a> -->
+                                <a href="https://www.linkedin.com/in/santhosh-kumar-manapuram-245878135/"><i
+                                        class="fab fa-linkedin-in"></i></a>
+                                <a href="https://www.instagram.com/santhosh_manapuram/"><i
+                                        class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-item">
+                        <div class="team-img">
+                            <img src="img/avi.jpeg" alt="Team Image">
+                        </div>
+                        <div class="team-text">
+                            <h2>Avinash Ram K</h2>
+                            <p>----------------</p>
+                            <div class="team-social">
+                                <a href=" https://x.com/AviNash__RaM"><i class="fab fa-twitter"></i></a>
+                                <!-- <a href=""><i class="fab fa-facebook-f"></i></a> -->
+                                <a href="https://www.linkedin.com/in/kommireddy-naga-avinash-9ab539115/"><i
+                                        class="fab fa-linkedin-in"></i></a>
+                                <a href="https://www.instagram.com/avinash.kommireddy/"><i
+                                        class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-item">
+                        <div class="team-img">
+                            <img src="img/rohit.jpeg" alt="Team Image">
+                        </div>
+                        <div class="team-text">
+                            <h2>Rohit Kolli</h2>
+                            <p>----------------</p>
+                            <div class="team-social">
+                                <!-- <a href=""><i class="fab fa-twitter"></i></a> -->
+                                <!-- <a href=""><i class="fab fa-facebook-f"></i></a> -->
+                                <!-- <a href=""><i class="fab fa-linkedin-in"></i></a> -->
+                                <a href="https://www.instagram.com/rohith_kolli_04/"><i
+                                        class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-item">
+                        <div class="team-img">
+                            <img src="img/harish.jpeg" alt="Team Image">
+                        </div>
+                        <div class="team-text">
+                            <h2>Harish</h2>
+                            <p>----------------</p>
+                            <div class="team-social">
+                                <!-- <a href=""><i class="fab fa-twitter"></i></a> -->
+                                <!-- <a href=""><i class="fab fa-facebook-f"></i></a> -->
+                                <!-- <a href=""><i class="fab fa-linkedin-in"></i></a> -->
+                                <a href="https://www.instagram.com/36_harish?igsh=cHFqaXZicHczbW4z"><i
+                                        class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Team End -->
+
+
+    <!-- Volunteer Start -->
+    <!-- <div class="volunteer" data-parallax="scroll" data-image-src="img/volunteer.jpg">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-5">
+                        <div class="volunteer-form">
+                            <form>
+                                <div class="control-group">
+                                    <input type="text" class="form-control" placeholder="Name" required="required" />
+                                </div>
+                                <div class="control-group">
+                                    <input type="email" class="form-control" placeholder="Email" required="required" />
+                                </div>
+                                <div class="control-group">
+                                    <textarea class="form-control" placeholder="Why you want to become a volunteer?" required="required"></textarea>
+                                </div>
+                                <div>
+                                    <button class="btn btn-custom" type="submit">Become a volunteer</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="volunteer-content">
+                            <div class="section-header">
+                                <p>Become A Volunteer</p>
+                                <h2>Let’s make a difference in the lives of others</h2>
+                            </div>
+                            <div class="volunteer-text">
+                                <p>
+                                    Lorem ipsum dolor sit amet elit. Phasellus nec pretium mi. Curabitur facilisis ornare velit non. Aliquam metus tortor, auctor id gravida, viverra quis sem. Curabitur non nisl nec nisi maximus. Aenean convallis porttitor. Aliquam interdum at lacus non blandit.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    <!-- Volunteer End -->
+
+
+    <!-- Testimonial Start -->
+    <div class="testimonial">
+        <div class="container">
+
+            <div class="section-header text-center">
+                <p>Testimonial</p>
+                <h2>What people are talking about our charity activities</h2>
+                <div class="mt-4 no-testimonials-message" style="display:none;">
+                    <p style="color: red">No testimonials right now, start one by posting your opinion!</p>
+                </div>
+            </div>
+            <div class="owl-carousel testimonials-carousel">
+                <!-- Dynamically inserts -->
+            </div>
+            <button class="btn btn-custom btn-block mt-3" data-toggle="modal" data-target="#testimonialModal">Add
+                Testimonial</button>
+            <!-- Testimonial Modal -->
+            <div class="modal fade" id="testimonialModal" tabindex="-1" role="dialog"
+                aria-labelledby="testimonialModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="testimonialModalLabel">Submit Your Testimonial</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="testimonialForm">
+                                <div class="form-group">
+                                    <label for="name">Your Name</label>
+                                    <input type="text" class="form-control" id="name1" placeholder="Enter your name"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profession">Your Profession</label>
+                                    <input type="text" class="form-control" id="profession"
+                                        placeholder="Enter your profession" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="testimonial">Your Testimonial</label>
+                                    <textarea class="form-control" id="testimonial" rows="4"
+                                        placeholder="Enter your testimonial" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-block btn-custom ">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Testimonial End -->
+
+
+        <!-- Contact Start -->
+        <!-- <div class="contact" id="contact">
+            <div class="container">
+                <div class="section-header text-center">
+                    <p>Get In Touch</p>
+                    <h2>Contact for any query</h2>
+                </div>
+                <div class="contact-img">
+                    <img src="img/contact.jpg" alt="Image">
+                </div>
+                <div class="contact-form">
+                        <div id="success"></div>
+                        <form name="sentMessage" id="contactForm" novalidate="novalidate">
+                            <div class="control-group">
+                                <input type="text" class="form-control" id="name" placeholder="Your Name" required="required" data-validation-required-message="Please enter your name" />
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="control-group">
+                                <input type="email" class="form-control" id="email" placeholder="Your Email" required="required" data-validation-required-message="Please enter your email" />
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="control-group">
+                                <input type="text" class="form-control" id="subject" placeholder="Subject" required="required" data-validation-required-message="Please enter a subject" />
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="control-group">
+                                <textarea class="form-control" id="message" placeholder="Message" required="required" data-validation-required-message="Please enter your message"></textarea>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div>
+                                <button class="btn btn-custom" type="submit" id="sendMessageButton">Send Message</button>
+                            </div>
+                        </form>
+                    </div>
+            </div>
+        </div> -->
+        <!-- Contact End -->
+
+
+        <!-- Blog Start -->
+        <!-- <div class="blog">
+            <div class="container">
+                <div class="section-header text-center">
+                    <p>Our Blog</p>
+                    <h2>Latest news & articles directly from our blog</h2>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="blog-item">
+                            <div class="blog-img">
+                                <img src="img/blog-1.jpg" alt="Image">
+                            </div>
+                            <div class="blog-text">
+                                <h3><a href="#">Lorem ipsum dolor sit</a></h3>
+                                <p>
+                                    Lorem ipsum dolor sit amet elit. Neca pretim miura bitur facili ornare velit non vulpte liqum metus tortor
+                                </p>
+                            </div>
+                            <div class="blog-meta">
+                                <p><i class="fa fa-user"></i><a href="">Admin</a></p>
+                                <p><i class="fa fa-comments"></i><a href="">15 Comments</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog-item">
+                            <div class="blog-img">
+                                <img src="img/blog-2.jpg" alt="Image">
+                            </div>
+                            <div class="blog-text">
+                                <h3><a href="#">Lorem ipsum dolor sit</a></h3>
+                                <p>
+                                    Lorem ipsum dolor sit amet elit. Neca pretim miura bitur facili ornare velit non vulpte liqum metus tortor
+                                </p>
+                            </div>
+                            <div class="blog-meta">
+                                <p><i class="fa fa-user"></i><a href="">Admin</a></p>
+                                <p><i class="fa fa-comments"></i><a href="">15 Comments</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog-item">
+                            <div class="blog-img">
+                                <img src="img/blog-3.jpg" alt="Image">
+                            </div>
+                            <div class="blog-text">
+                                <h3><a href="#">Lorem ipsum dolor sit</a></h3>
+                                <p>
+                                    Lorem ipsum dolor sit amet elit. Neca pretim miura bitur facili ornare velit non vulpte liqum metus tortor
+                                </p>
+                            </div>
+                            <div class="blog-meta">
+                                <p><i class="fa fa-user"></i><a href="">Admin</a></p>
+                                <p><i class="fa fa-comments"></i><a href="">15 Comments</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- Blog End -->
+
+
+        <!-- Footer Start -->
+        <div class="footer" id="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-7">
+                        <div class="footer-contact">
+                            <h2>Contact / Location</h2>
+                            <p><i class="fa fa-map-marker-alt"></i>Eluru, Andhra Pradesh, 534001</p>
+                            <p>
+                                <i class="fa fa-phone-alt"></i>
+                                <a href="tel:+917780731077" style="text-decoration: none; color: inherit;">+91 77807
+                                    31077</a>
+                            </p>
+                            <p>
+                                <i class="fa fa-envelope"></i>
+                                <a href="mailto:hopefulplateproviders@gmail.com"
+                                    style="text-decoration: none; color: inherit;">hopefulplateproviders@gmail.com</a>
+                            </p>
+
+                            <div class="footer-social">
+                                <a class="btn btn-custom" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-custom" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-custom" href=""><i class="fab fa-youtube"></i></a>
+                                <a class="btn btn-custom" href=""><i class="fab fa-instagram"></i></a>
+                                <a class="btn btn-custom" href=""><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <!-- <div class="footer-link">
+                            <h2>Popular Links</h2>
+                            <a href="">About Us</a>
+                            <a href="">Contact Us</a>
+                            <a href="">Popular Causes</a>
+                            <a href="">Upcoming Events</a>
+                            <a href="">Latest Blog</a>
+                        </div> -->
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <!-- <div class="footer-link">
+                            <h2>Useful Links</h2>
+                            <a href="">Terms of use</a>
+                            <a href="">Privacy policy</a>
+                            <a href="">Cookies</a>
+                            <a href="">Help</a>
+                            <a href="">FQAs</a>
+                        </div> -->
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-newsletter">
+                            <h6>This below updates feature is yet to be added.</h6>
+                            <h2>Get Updates!</h2>
+                            <form>
+                                <input class="form-control" placeholder="Email goes here">
+                                <button class="btn btn-custom">Submit</button>
+                                <label>Don't worry, we don't spam!</label>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container copyright">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>&copy; <a href="#">Team HPP</a>, All Right Reserved.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>Designed By <a href="https://www.instagram.com/santhosh_manapuram">Santhosh Manapuram</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+        <!-- Back to top button -->
+        <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+        <!-- Pre Loader -->
+        <div id="loader" class="show">
+            <div class="loader"></div>
+        </div>
+
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="lib/waypoints/waypoints.min.js"></script>
+        <script src="lib/counterup/counterup.min.js"></script>
+        <script src="lib/parallax/parallax.min.js"></script>
+
+        <!-- Contact Javascript File -->
+        <script src="mail/jqBootstrapValidation.min.js"></script>
+        <script src="mail/contact.js"></script>
+
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
+        <script>
+            // Initialize Supabase
+            const SUPABASE_URL = "https://yjpjumvaadajilxkdrwb.supabase.co";
+            const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlqcGp1bXZhYWRhamlseGtkcndiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ4ODU1NzAsImV4cCI6MjA1MDQ2MTU3MH0.ZloxuS3lY_hEfI6teaEvdZ8R3eC95tk-7loyMVLNo4o";
+            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+            async function submitTestimonial(name, profession, testimonial) {
+                try {
+                    const { error } = await supabase.from("testimonials").insert([
+                        { name, profession, testimonial },
+                    ]);
+                    if (error) throw error;
+                    alert("Testimonial submitted successfully!");
+                    fetchTestimonials(); // Refresh testimonials
+                    $('#testimonialModal').modal('hide').on('hidden.bs.modal', function () {
+                        // Remove the backdrop
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                    });
+                    // Clear the input fields after successful submission
+                    document.getElementById("name").value = "";
+                    document.getElementById("profession").value = "";
+                    document.getElementById("testimonial").value = "";
+                } catch (error) {
+                    console.error("Error submitting testimonial:", error);
+                    alert("Failed to submit testimonial. Please try again.");
+                }
+            }
+
+            async function fetchTestimonials() {
+                console.log("Fetching testimonials...");
+                try {
+                    const { data: testimonials, error } = await supabase
+                        .from("testimonials")
+                        .select("*");
+                    if (error) throw error;
+                    populateCarousel(testimonials);
+                } catch (error) {
+                    console.error("Error fetching testimonials:", error);
+                }
+            }
+
+            function populateCarousel(testimonials) {
+                const carousel = document.querySelector(".testimonials-carousel");
+                carousel.innerHTML = ""; // Clear previous content
+
+                testimonials.forEach(({ name, profession, testimonial }) => {
+                    const item = `
+            <div class="testimonial-item">
+                <div class="testimonial-profile">
+                    <div class="testimonial-name">
+                        <h3>${name}</h3>
+                        <p>${profession}</p>
+                    </div>
+                </div>
+                <div class="testimonial-text">
+                    <p>${testimonial}</p>
+                </div>
+            </div>
+        `;
+                    carousel.innerHTML += item;
+                });
+
+                // Check if Owl Carousel is initialized, destroy it if so
+                if ($('.testimonials-carousel').hasClass('owl-loaded')) {
+                    $('.testimonials-carousel').owlCarousel('destroy');
+                }
+
+                $('.testimonials-carousel').owlCarousel({
+                    loop: true, // Enable looping
+                    autoplay: true, // Enable autoplay
+                    autoplayTimeout: 3000, // Time between each slide (in milliseconds)
+                    autoplayHoverPause: true, // Pause autoplay on hover
+                    nav: false, // Disable navigation arrows (prev/next)
+                    dots: false, // Disable dots (pagination)
+                    responsive: {
+                        0: { items: 1 }, // 1 item on small screens
+                        600: { items: 2 }, // 2 items on medium screens
+                        1000: { items: 3 } // 3 items on large screens
+                    }
+                });
+
+            }
+
+            // Event Listeners
+            document.getElementById("testimonialForm").addEventListener("submit", async (event) => {
+                event.preventDefault();
+                const name = document.getElementById("name1").value;
+                const profession = document.getElementById("profession").value;
+                const testimonial = document.getElementById("testimonial").value;
+                await submitTestimonial(name, profession, testimonial);
+            });
+
+            // Get the popup and close button elements
+            const popupContainer = document.getElementById('popupContainer');
+            const closeButton = document.getElementById('closeButton');
+
+            // Close the popup when the close button is clicked
+            closeButton.onclick = () => {
+                popupContainer.classList.remove('show');
+            };
+            // Listen for a message from the iframe to close the popup
+
+            // Show the popup immediately when the page loads
+            window.onload = async () => {
+                popupContainer.classList.add('show');
+
+                await fetchPhotos(); // Load photos
+
+                loadContent();
+            };
+
+            // Function to load photos and testimonials asynchronously
+            async function loadContent() {
+                try {
+                    await fetchTestimonials(); // Load testimonials
+                } catch (error) {
+                    console.error('Error loading content:', error);
+                }
+            }
+
+            window.addEventListener('message', (event) => {
+                if (event.data === 'closePopup') {
+                    popupContainer.classList.remove('show');
+                }
+            });
+
+            $(document).ready(function () {
+                const showModalAndFetchPhotos = async () => {
+                    $('#photos-model').modal('show'); // Show the modal
+                    await fetchPhotos(); // Fetch photos when the modal is shown
+                    checkAdminSession();
+                };
+
+                const checkAdminSession = () => {
+                    const isAdminLoggedIn = sessionStorage.getItem("adminSession");
+                    uploadButton.style.display = isAdminLoggedIn ? "block" : "none";
+                };
+
+                // Attach event listeners to both buttons
+                document.getElementById("photosButtonMobile").addEventListener("click", showModalAndFetchPhotos);
+                document.getElementById("photosButtonDesktop").addEventListener("click", showModalAndFetchPhotos);
+
+
+                let count = 0; // Variable to track the toggle state
+
+                document.getElementById("uploadButton").addEventListener("click", function () {
+                    $('#photos-model').modal('show'); // Show the modal
+
+                    // Toggle the visibility of the upload section
+                    if (count === 0) {
+                        document.getElementById("uploadSection").style.display = "block"; // Show upload section
+                        count = 1; // Update state to indicate the upload section is visible
+                    } else {
+                        document.getElementById("uploadSection").style.display = "none"; // Hide upload section
+                        count = 0; // Update state to indicate the upload section is hidden
+                    }
+                });
+
+            });
+
+            document.getElementById("uploadSubmitButton").addEventListener("click", async () => {
+                console.log("upload btn clicked");
+                const files = document.getElementById("photoInput").files;
+                const uploadKey = document.getElementById("uploadKey").value;
+
+                if (!uploadKey || !validateUploadKey(uploadKey)) {
+                    alert("Validation failed. Please enter the correct upload key.");
+                    document.getElementById("uploadKey").value = ""; // Clear the input field
+                    return;
+                }
+
+                if (files.length === 0) {
+                    alert("No files selected.");
+                    return;
+                }
+
+                await uploadPhotos(files); // Proceed with uploading if validation passes
+            });
+
+            // Validation Function for Upload Key
+            function validateUploadKey(uploadKey) {
+                const validKey = "Hopefull@2016";
+                return uploadKey === validKey;
+            }
+
+            // Modified uploadPhotos function
+            async function uploadPhotos(files) {
+                try {
+                    for (const file of files) {
+                        const { data, error } = await supabase.storage.from("photos").upload(`public/${file.name}`, file);
+                        if (error) throw error;
+
+                        const photoUrl = `${SUPABASE_URL}/storage/v1/object/public/photos/public/${file.name}`;
+                        const { error: dbError } = await supabase.from("photos").insert([{ url: photoUrl }]);
+                        if (dbError) throw dbError;
+                    }
+                    alert("Photos uploaded successfully!");
+                    document.getElementById("uploadKey").value = ""; // Clear the input field
+                    document.getElementById("photoInput").value = "";
+                    await fetchPhotos(); // Refresh gallery
+                } catch (error) {
+                    console.error("Error uploading photos:", error);
+                    alert("Photo upload failed.");
+                }
+            }
+
+            let currentPhotoIndex = 0;
+            let photosArray = []; // To store the fetched photos
+
+            // Function to fetch and display photos
+            async function fetchPhotos() {
+                try {
+                    const { data: photos, error } = await supabase
+                        .from("photos")
+                        .select("*")
+                        .order('id', { ascending: false });  // Sort by `id` in descending order
+
+                    if (error) throw error;
+
+                    photosArray = photos;
+                     // Select a random photo
+        const randomPhoto = photos[Math.floor(Math.random() * photos.length)];
+        
+        // Display the random photo in the popup
+        displayPopupPhoto(randomPhoto);
+
+                    displayPhotos(photos);
+                } catch (error) {
+                    console.error("Error fetching photos:", error);
+                }
+            }
+
+            // Function to update the popup with a random photo
+function displayPopupPhoto(photo) {
+    const popupImage = document.querySelector('#popupContainer img');
+    const popupText = document.querySelector('#popupContainer p');
+
+    if (popupImage && photo) {
+        popupImage.src = photo.url; // Assuming `photo.url` contains the image URL
+        popupImage.alt = "Image is broken!! We'll repair it";
+    }
+
+    if (popupText && photo) {
+        popupText.textContent = photo.title || "Welcome to the Hopeful Plate Providers!";
+    }
+}
+
+            // Display photos in the gallery
+            function displayPhotos(photos) {
+                const gallery = document.getElementById("photosContainer");
+                const noPhotosMessage = document.getElementById("noPhotosMessage");
+
+                gallery.innerHTML = ""; // Clear gallery
+                if (!photos || photos.length === 0) {
+                    noPhotosMessage.style.display = "block";
+                    return;
+                }
+
+                noPhotosMessage.style.display = "none"; // Hide no-photos message
+
+                photos.forEach((photo, index) => {
+                    const photoBox = document.createElement("div");
+                    photoBox.className = "p-2";
+                    photoBox.style.width = "25%";
+                    photoBox.innerHTML = `
+            <img src="${photo.url}" alt="Photo" class="img-thumbnail w-100" data-index="${index}">
+        `;
+                    gallery.appendChild(photoBox);
+                });
+            }
+
+            // Function to show the expanded photo view
+            function showPhotoView(index) {
+                if (index < 0 || index >= photosArray.length) return; // Ensure index is valid
+
+                const photoView = document.getElementById("photoView");
+                const expandedPhoto = document.getElementById("expandedPhoto");
+                // const downloadBtn = document.getElementById("downloadBtn");
+                const prevBtn = document.getElementById("prevBtn");
+                const nextBtn = document.getElementById("nextBtn");
+
+                currentPhotoIndex = index;
+
+                expandedPhoto.src = photosArray[index].url;
+                // downloadBtn.href = photosArray[index].url;
+                const fileName = photosArray[index].url.split("/").pop();
+                // downloadBtn.download = fileName; // Trigger the download using the filename
+
+
+                // Show photo view modal
+                photoView.style.display = "flex";
+
+                // Enable/Disable previous and next buttons
+                prevBtn.disabled = currentPhotoIndex === 0;
+                nextBtn.disabled = currentPhotoIndex === photosArray.length - 1;
+            }
+
+            // Next photo
+            document.getElementById("nextBtn").addEventListener("click", () => {
+                if (currentPhotoIndex < photosArray.length - 1) {
+                    showPhotoView(currentPhotoIndex + 1);
+                }
+            });
+
+            // Previous photo
+            document.getElementById("prevBtn").addEventListener("click", () => {
+                if (currentPhotoIndex > 0) {
+                    showPhotoView(currentPhotoIndex - 1);
+                }
+            });
+
+            // Close the expanded photo view when clicking outside the image
+            document.getElementById("photoView").addEventListener("click", (e) => {
+                if (e.target === document.getElementById("photoView")) {
+                    document.getElementById("photoView").style.display = "none";
+                }
+            });
+
+            // Open the clicked photo in expanded view
+            document.getElementById("photosContainer").addEventListener("click", (e) => {
+                if (e.target.tagName === "IMG") {
+                    const index = e.target.getAttribute("data-index");
+                    showPhotoView(parseInt(index, 10));
+                }
+            });
+
+            // // Function to handle the download click
+            //     document.getElementById("downloadBtn").addEventListener("click", (e) => {
+            //         console.log("DOWNLOAD CALLED")
+            //         const downloadLink = e.target;
+            //         downloadLink.click(); // This forces the download of the image
+            //     });
+
+            // Initialize Supabase client (make sure you initialize it with your Supabase URL and anon key)
+
+            // Select the elements
+            const uploadVideoBtn = document.getElementById('uploadVideoBtn');
+            const videoInput = document.getElementById('videoInput');
+            const videoListContainer = document.getElementById('videoListContainer');
+
+            // Function to fetch and display videos
+            // Function to fetch and display videos
+            async function fetchVideos() {
+                try {
+                    const { data: videos, error } = await supabase
+                        .from('videos')
+                        .select('*')
+                        .order('id', { ascending: false }); // You can change the order if needed
+
+                    if (error) throw error;
+
+                    // Clear the previous list
+                    videoListContainer.innerHTML = "";
+
+                    // Loop through the videos and display them
+                    videos.forEach((video) => {
+                        const videoElement = document.createElement('a');
+                        videoElement.classList.add('mt-4', 'btn', 'btn-custom', 'btn-play');
+                        videoElement.href = "#";
+                        videoElement.setAttribute('data-src', video.url);  // Set the video URL as data-src
+                        videoElement.setAttribute('data-toggle', 'modal');
+                        videoElement.setAttribute('data-target', '#videoModal');
+                        videoElement.innerText = 'Watch Video';
+
+                        // Attach event listener to set the iframe source
+                        videoElement.addEventListener('click', (e) => {
+                            const videoUrl = e.target.getAttribute('data-src'); // Get the video URL from data-src attribute
+                            console.log("Video URL:", videoUrl); // Debugging: Log the video URL
+                            const videoPlayer = document.getElementById('video'); // Select the iframe
+                            console.log("videoPlayer.src : ", videoPlayer.src)
+                            if (videoUrl && videoUrl !== 'undefined') {
+                                videoPlayer.src = videoUrl + "?autoplay=1&modestbranding=1&showinfo=0"; // Set video src with autoplay
+                                console.log("after videoPlayer.src : ", videoPlayer.src)
+                                console.log("videoElement.videoPlayer.src", videoElement);
+                            } else {
+                                console.error("Video URL is undefined or invalid");
+                            }
+                        });
+                        console.log(videoElement);
+                        videoListContainer.appendChild(videoElement);
+                    });
+                } catch (error) {
+                    console.error("Error fetching videos:", error);
+                }
+            }
+
+
+            // Function to upload video to Supabase
+            async function uploadVideo() {
+                const file = videoInput.files[0];
+                if (!file) {
+                    alert("Please select a video file to upload.");
+                    return;
+                }
+
+                try {
+                    // Upload the video to Supabase Storage (videos/public)
+                    const { data, error: uploadError } = await supabase
+                        .storage
+                        .from('videos')
+                        .upload(`public/${file.name}`, file);
+
+                    if (uploadError) throw uploadError;
+
+                    const videoUrl = `${SUPABASE_URL}/storage/v1/object/public/videos/${data.path}`;
+
+                    // Save the video URL to the database
+                    const { error: insertError } = await supabase
+                        .from('videos')
+                        .insert([
+                            { url: videoUrl }
+                        ]);
+
+                    if (insertError) throw insertError;
+
+                    // Fetch the updated video list
+                    fetchVideos();
+
+                    alert("Video uploaded successfully!");
+                } catch (error) {
+                    console.error("Error uploading video:", error);
+                }
+            }
+
+            // Open the video input when the "Upload Videos" button is clicked
+            // uploadVideoBtn.addEventListener('click', () => {
+            // return;
+            // videoInput.click();
+            // });
+
+            // When a video is selected, upload it
+            // videoInput.addEventListener('change', uploadVideo);
+
+            // Fetch the initial list of videos when the page loads
+            // fetchVideos();
+
+            const SUPER_API_KEY = "Hopeful@2016"; // Predefined API Key
+            const checkLoginStatus = () => {
+                const session = JSON.parse(sessionStorage.getItem("adminSession"));
+                if (session && session.expiresAt > new Date().getTime()) {
+                    // If logged in, show "unlocked" and hide "locked"
+                    $("#photosButtonMobileLocked").hide();
+                    $("#photosButtonMobileUnlocked").show();
+                } else {
+                    // If not logged in, show "locked" and hide "unlocked"
+                    $("#photosButtonMobileLocked").show();
+                    $("#photosButtonMobileUnlocked").hide();
+                }
+            };
+
+            // Run the login check on page load
+            checkLoginStatus();
+
+            // Register a new admin
+            $("#registerButton").on("click", async () => {
+                // const session = JSON.parse(localStorage.getItem("adminSession"));
+                const email = $("#registerEmail").val().trim();
+                const apiKey = $("#registerKey").val().trim();
+
+                if (!email || !apiKey) {
+                    alert("Please fill all fields.");
+                    return;
+                }
+
+                if (apiKey !== SUPER_API_KEY) {
+                    alert("Invalid API Key.");
+                    $("#registerKey").val("");
+                    return;
+                }
+
+                try {
+                    const uuid = crypto.randomUUID(); // Generate a unique UUID
+
+                    const { error } = await supabase.from("admins").insert([{ email, uuid }]);
+
+                    if (error) throw error;
+                    displaySuccessMessage(uuid);
+                    // alert(`Key for entered email is ${uuid}.`);
+                    $("#registerEmail, #registerKey").val(""); // Reset the form
+                } catch (error) {
+                    if (error.code === "23505") {
+                        alert("User Already Exists.")
+                    } else {
+                        alert("Oops!! Please Try Again.");
+                    }
+                }
+            });
+
+            // Function to display success message with UUID
+            const displaySuccessMessage = (uuid) => {
+                const messageContainer = $("#messageContainer");
+                const successMessage = `<p class="alert alert-success" style="position: relative; display: inline-block;">
+            Please note this UUID and keep it safe, If lost, you'll need to delete and re-create the account.<br>Your UUID for login is <strong>${uuid}</strong>.
+            <span class="close" style="position: absolute; top: 0; right: 5px; cursor: pointer;">&times;</span>
+        </p>`;
+
+                messageContainer.html(successMessage);
+
+                // Add event listener to close the message
+                messageContainer.find(".close").on("click", () => {
+                    messageContainer.empty();
+                });
+
+                // Automatically hide the message after 5 seconds
+                // setTimeout(() => {
+                //     messageContainer.empty();
+                // }, 5000);
+            };
+
+            // Admin login
+            $("#loginButton").on("click", async () => {
+                const email = $("#loginEmail").val().trim();
+                const uuid = $("#loginUUID").val().trim();
+
+                if (!email || !uuid) {
+                    alert("Please fill all fields.");
+                    return;
+                }
+
+                try {
+                    const { data, error } = await supabase.from("admins").select("*").eq("email", email).eq("uuid", uuid).single();
+
+                    if (error || !data) {
+                        alert("Invalid email or UUID.");
+                        return;
+                    }
+
+                    // Create a session in localStorage
+                    const session = {
+                        email,
+                        expiresAt: new Date().getTime() + 10 * 60 * 1000 // 10 minutes from now
+                    };
+
+                    localStorage.setItem("adminSession", JSON.stringify(session));
+                    sessionStorage.setItem("adminSession", JSON.stringify(session));
+                    // window.location.href = 'videos.html';
+                    checkLoginStatus();
+                    $("#loginEmail, #loginUUID").val("");//reset form
+                    $("#adminModal").modal("hide");
+                } catch (error) {
+                    console.error("Error logging in:", error);
+                    alert("Login failed. Try again later.");
+                }
+            });
+
+            // Handle logout (clear session)
+            $("#photosButtonMobileUnlocked").on("click", () => {
+                // Clear the session from localStorage
+                localStorage.removeItem("adminSession");
+                sessionStorage.removeItem("adminSession");
+
+                // Update the buttons to show "locked" and hide "unlocked"
+                checkLoginStatus();
+
+                alert("Logged out successfully!");
+            });
+
+            // Validate session on page load
+            // const validateSession = () => {
+            //     const session = JSON.parse(localStorage.getItem("adminSession"));
+            //     if (session && session.expiresAt > new Date().getTime()) {
+            //         alert(`Welcome back, ${session.email}!`);
+            //     } else {
+            //         localStorage.removeItem("adminSession");
+            //     }
+            // };
+
+            // Run session validation
+            // validateSession();
+
+            // Clear session on tab close
+            $(window).on("beforeunload", () => {
+                localStorage.removeItem("adminSession");
+            });
+
+            // Close modal and remove backdrop after modal is hidden
+            $("#adminModal").on('hidden.bs.modal', function () {
+                setTimeout(() => {
+                    $('.modal-backdrop').remove(); // Remove any backdrop
+                }, 100); // 100ms delay to ensure it's after modal is fully hidden
+            });
+        </script>
+
+</body>
+
+</html>
